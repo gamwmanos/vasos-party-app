@@ -449,6 +449,17 @@ export default function Home() {
               </form>
             </div>
           )}
+          
+          {/* Leaderboard Button */}
+          <div className="mt-8 pt-8 border-t border-white/10">
+            <button
+              onClick={() => router.push("/leaderboard")}
+              className="w-full py-4 rounded-xl bg-black/50 border border-[#c0392b]/50 text-white font-bold text-xl hover:bg-[#c0392b]/20 transition-all flex items-center justify-center gap-3"
+            >
+              <Trophy className="w-6 h-6 text-[#c0392b]" />
+              ΔΕΣ ΤΟ LEADERBOARD
+            </button>
+          </div>
         </motion.div>
       </section>
 
