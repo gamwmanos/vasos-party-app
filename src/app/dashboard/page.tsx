@@ -147,7 +147,7 @@ export default function Dashboard() {
             </div>
             
             <h3 className="text-3xl font-black text-white mb-2">Κρυφό Quest!</h3>
-            <p className="text-gray-300 font-medium mb-6">Ξεκλείδωσες ένα μυστικό quest επειδή ολοκλήρωσες 4 προκλήσεις. Δίνει 2 Πόντους!</p>
+            <p className="text-gray-300 font-medium mb-6">Ξεκλείδωσες ένα μυστικό quest επειδή ολοκλήρωσες 4 προκλήσεις. Να είσαι διακριτικός όμως, η φωτό αυτή μετράει για δύο πόντους! Αυτό είναι κρυφό quest, μη το μάθουν όλοι! 🤫</p>
             
             <div className="bg-black/50 border border-white/10 rounded-xl p-4 w-full mb-6 text-left">
               <h4 className="font-bold text-yellow-500 mb-1">Τα Αναφιώτικα</h4>
