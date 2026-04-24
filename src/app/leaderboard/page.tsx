@@ -28,18 +28,24 @@ export default function Leaderboard() {
       
       snapshot.docs.forEach(doc => {
         const data = doc.data();
+        if (data.pending) return; // skip pending nudes submissions
         if (!scores[data.userId]) {
           scores[data.userId] = { userName: data.userName, score: 0 };
         }
         
-        const quest = QUESTS.find(q => q.id === data.questId);
-        const points = quest?.points || 1;
+        // Use explicit points field if set (e.g. q17 approved nudes), else look up quest
+        let points: number;
+        if (data.points !== undefined) {
+          points = data.points;
+        } else {
+          const quest = QUESTS.find(q => q.id === data.questId);
+          points = quest?.points ?? 1;
+        }
         
         scores[data.userId].score += points;
 
         if (data.questId === 'q13' && data.caughtUserId) {
           if (!scores[data.caughtUserId]) {
-            // We shouldn't really hit this if they've uploaded, but just in case
             scores[data.caughtUserId] = { userName: "Unknown", score: 0 };
           }
           scores[data.caughtUserId].score -= 3;

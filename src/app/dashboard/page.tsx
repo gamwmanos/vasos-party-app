@@ -2,14 +2,23 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { collection, onSnapshot, doc, setDoc } from "firebase/firestore";
+import { collection, onSnapshot, doc, setDoc, deleteDoc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "@/lib/firebase";
 import { QUESTS, QuestStatus } from "@/lib/quests";
 import QuestCard from "@/components/QuestCard";
 import NotificationModal from "@/components/NotificationModal";
-import { Trophy, Image as ImageIcon, User } from "lucide-react";
+import { Trophy, Image as ImageIcon, User, CheckCircle2, XCircle } from "lucide-react";
 import { motion } from "framer-motion";
+
+interface NudesSubmission {
+  docId: string;
+  userId: string;
+  userName: string;
+  gender: string;
+  imageUrl: string;
+  timestamp: string;
+}
 
 export default function Dashboard() {
   const router = useRouter();
@@ -20,6 +29,8 @@ export default function Dashboard() {
   const [showHiddenUnlock, setShowHiddenUnlock] = useState(false);
   const [usersList, setUsersList] = useState<{ id: string; name: string }[]>([]);
   const [hasUnlockedHidden, setHasUnlockedHidden] = useState(false);
+  const [nudesSubmissions, setNudesSubmissions] = useState<NudesSubmission[]>([]);
+  const [pendingNudes, setPendingNudes] = useState(false); // current user has pending q17
 
   useEffect(() => {
     if (userId) {
@@ -63,18 +74,30 @@ export default function Dashboard() {
           usersMap.set(data.userId, data.userName);
         }
       });
-      usersMap.delete(storedUserId); // Remove self
+      usersMap.delete(storedUserId);
       const uniqueUsers = Array.from(usersMap.entries()).map(([id, name]) => ({ id, name }));
       setUsersList(uniqueUsers);
+    });
+
+    // Listen to nudes submissions
+    const unsubscribeNudes = onSnapshot(collection(db, "nudesSubmissions"), (snapshot) => {
+      const submissions: NudesSubmission[] = snapshot.docs.map(d => ({
+        docId: d.id,
+        ...(d.data() as Omit<NudesSubmission, 'docId'>)
+      }));
+      setNudesSubmissions(submissions);
+      // Check if current user has a pending submission
+      setPendingNudes(submissions.some(s => s.userId === storedUserId));
     });
 
     return () => {
       unsubscribeQuests();
       unsubscribeGallery();
+      unsubscribeNudes();
     };
   }, [router]);
 
-  const handleQuestComplete = async (questId: string, file: File, caughtUserId?: string) => {
+  const handleQuestComplete = async (questId: string, file: File, caughtUserId?: string, gender?: string) => {
     if (!userId || !userName) return;
     setUploadingQuestId(questId);
 
@@ -82,6 +105,24 @@ export default function Dashboard() {
       const imageRef = ref(storage, `quests/${questId}/${userId}_${Date.now()}`);
       await uploadBytes(imageRef, file);
       const imageUrl = await getDownloadURL(imageRef);
+
+      // Special handling for q17 (nudes) — save to pending collection
+      if (questId === 'q17') {
+        await setDoc(doc(db, "nudesSubmissions", `${userId}_q17`), {
+          userId,
+          userName,
+          gender: gender || 'unknown',
+          imageUrl,
+          timestamp: new Date().toISOString(),
+        });
+        // Mark as "completed" locally so card shows pending state
+        await setDoc(doc(db, "users", userId, "completedQuests", questId), {
+          completedAt: new Date().toISOString(),
+          imageUrl,
+          pending: true,
+        });
+        return;
+      }
 
       await setDoc(doc(db, "users", userId, "completedQuests", questId), {
         completedAt: new Date().toISOString(),
@@ -105,7 +146,38 @@ export default function Dashboard() {
     }
   };
 
+  // ADMIN: Approve a nudes submission
+  const handleApproveNudes = async (submission: NudesSubmission) => {
+    const points = submission.gender === 'female' ? 30 : -100;
+    // Add to gallery with correct points
+    await setDoc(doc(db, "gallery", `${submission.userId}_q17`), {
+      userId: submission.userId,
+      userName: submission.userName,
+      questId: 'q17',
+      imageUrl: submission.imageUrl,
+      timestamp: submission.timestamp,
+      points,
+    });
+    // Update completedQuests to remove pending flag
+    await setDoc(doc(db, "users", submission.userId, "completedQuests", "q17"), {
+      completedAt: submission.timestamp,
+      imageUrl: submission.imageUrl,
+      pending: false,
+      points,
+    });
+    // Delete from pending
+    await deleteDoc(doc(db, "nudesSubmissions", submission.docId));
+  };
+
+  // ADMIN: Remove a nudes submission (reject)
+  const handleRemoveNudes = async (submission: NudesSubmission) => {
+    await deleteDoc(doc(db, "nudesSubmissions", submission.docId));
+    await deleteDoc(doc(db, "users", submission.userId, "completedQuests", "q17"));
+  };
+
   if (!userId) return null;
+
+  const isAdmin = userId === 'manos-7716';
 
   return (
     <main className="min-h-screen bg-[var(--color-bg-dark)] p-4 pb-24">
@@ -132,11 +204,47 @@ export default function Dashboard() {
         </div>
       </header>
 
+      {/* ADMIN PANEL: Nudes submissions (only for manos-7716) */}
+      {isAdmin && nudesSubmissions.length > 0 && (
+        <div className="mb-8 bg-yellow-900/20 border-2 border-yellow-500/50 rounded-3xl p-5">
+          <h3 className="text-yellow-400 font-black text-xl mb-4">🔞 Pending Nudes ({nudesSubmissions.length})</h3>
+          <div className="space-y-4">
+            {nudesSubmissions.map((sub) => (
+              <div key={sub.docId} className="bg-black/50 rounded-2xl overflow-hidden border border-white/10">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={sub.imageUrl} alt="submission" className="w-full max-h-64 object-cover" />
+                <div className="p-4">
+                  <p className="text-white font-bold text-lg">{sub.userName}</p>
+                  <p className={`font-black text-sm ${sub.gender === 'female' ? 'text-pink-400' : 'text-blue-400'}`}>
+                    {sub.gender === 'female' ? '👧 Κορίτσι → +30 πόντοι' : '👦 Αγόρι → -100 πόντοι'}
+                  </p>
+                  <div className="flex gap-3 mt-3">
+                    <button
+                      onClick={() => handleApproveNudes(sub)}
+                      className="flex-1 flex items-center justify-center gap-2 py-3 bg-green-600 hover:bg-green-500 text-white font-black rounded-xl transition-all active:scale-95"
+                    >
+                      <CheckCircle2 className="w-5 h-5" /> Approve
+                    </button>
+                    <button
+                      onClick={() => handleRemoveNudes(sub)}
+                      className="flex-1 flex items-center justify-center gap-2 py-3 bg-red-700 hover:bg-red-600 text-white font-black rounded-xl transition-all active:scale-95"
+                    >
+                      <XCircle className="w-5 h-5" /> Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="space-y-4">
         {QUESTS.map((quest) => {
           if (quest.isHidden && !hasUnlockedHidden && !completedQuests.includes(quest.id) && userId !== 'manos-7716') return null;
 
           const isCompleted = completedQuests.includes(quest.id);
+          const isThisQuestPending = quest.id === 'q17' && pendingNudes;
           const status: QuestStatus = isCompleted ? "completed" : "active";
 
           return (
@@ -145,8 +253,9 @@ export default function Dashboard() {
                 quest={quest}
                 status={status}
                 isUploading={uploadingQuestId === quest.id}
-                onComplete={(file, selectedUserId) => handleQuestComplete(quest.id, file, selectedUserId)}
+                onComplete={(file, selectedUserId, gender) => handleQuestComplete(quest.id, file, selectedUserId, gender)}
                 usersList={usersList}
+                isPending={isThisQuestPending}
               />
             </motion.div>
           );

@@ -7,6 +7,8 @@ export interface Quest {
   isHidden?: boolean;
   points?: number;
   requiresUserSelection?: boolean;
+  requiresAdminApproval?: boolean;
+  requiresGenderSelection?: boolean;
 }
 
 export const QUESTS: Quest[] = [
@@ -98,5 +100,12 @@ export const QUESTS: Quest[] = [
     title: 'Βρες τον Τζι Χιώτη! 😘',
     description: 'Βρες τον Τζι Χιώτη και δώσ\' του ένα φιλί στο μάγουλο! Φωτογράφισε τη στιγμή!',
     points: 2
+  },
+  {
+    id: 'q17',
+    title: 'Στείλε Nudes στον Μανο 🔞',
+    description: 'Στείλε nudes στον Μανο! 👧 Κορίτσι: +30 πόντοι 🎉 | 👦 Αγόρι: -100 πόντοι 💀 Ο Μανός αποφασίζει αν μετράει!',
+    requiresAdminApproval: true,
+    requiresGenderSelection: true
   }
 ];
