@@ -6,18 +6,24 @@ import { Quest, QuestStatus } from "@/lib/quests";
 interface QuestCardProps {
   quest: Quest;
   status: QuestStatus;
-  onComplete: (file: File) => void;
+  onComplete: (file: File, selectedUserId?: string) => void;
   isUploading?: boolean;
+  usersList?: { id: string; name: string }[];
 }
 
-export default function QuestCard({ quest, status, onComplete, isUploading }: QuestCardProps) {
+export default function QuestCard({ quest, status, onComplete, isUploading, usersList }: QuestCardProps) {
   const [file, setFile] = useState<File | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<string>("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (status === "active" && quest.requiresUserSelection && !selectedUserId) {
+      alert("Παρακαλώ επίλεξε πρώτα το άτομο από τη λίστα!");
+      return;
+    }
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
       setFile(selectedFile);
-      onComplete(selectedFile);
+      onComplete(selectedFile, selectedUserId || undefined);
     }
   };
 
@@ -44,6 +50,23 @@ export default function QuestCard({ quest, status, onComplete, isUploading }: Qu
         )}
       </div>
 
+      {quest.requiresUserSelection && status === "active" && usersList && (
+        <div className="mt-4">
+          <select
+            value={selectedUserId}
+            onChange={(e) => setSelectedUserId(e.target.value)}
+            className="w-full bg-black/50 border border-[#c0392b] text-white p-3 rounded-xl focus:outline-none focus:border-red-400"
+          >
+            <option value="">Επίλεξε ποιον έπιασες στα πράσσα...</option>
+            {usersList.map((u) => (
+              <option key={u.id} value={u.id}>
+                {u.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
       {status === "active" && (
         <div className="mt-5">
           <label className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-[#c0392b] text-white rounded-xl font-semibold cursor-pointer hover:bg-[#991b1b] transition-colors active:scale-95">
@@ -54,7 +77,7 @@ export default function QuestCard({ quest, status, onComplete, isUploading }: Qu
               accept="image/*"
               className="hidden"
               onChange={handleFileChange}
-              disabled={isUploading}
+              disabled={isUploading || (status === "active" && quest.requiresUserSelection && !selectedUserId)}
             />
           </label>
         </div>
@@ -70,7 +93,7 @@ export default function QuestCard({ quest, status, onComplete, isUploading }: Qu
               accept="image/*"
               className="hidden"
               onChange={handleFileChange}
-              disabled={isUploading}
+              disabled={isUploading || (status === "active" && quest.requiresUserSelection && !selectedUserId)}
             />
           </label>
         </div>

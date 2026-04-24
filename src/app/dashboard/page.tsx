@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [completedQuests, setCompletedQuests] = useState<string[]>([]);
   const [uploadingQuestId, setUploadingQuestId] = useState<string | null>(null);
   const [showHiddenUnlock, setShowHiddenUnlock] = useState(false);
+  const [usersList, setUsersList] = useState<{ id: string; name: string }[]>([]);
   const [hasUnlockedHidden, setHasUnlockedHidden] = useState(false);
 
   useEffect(() => {
@@ -49,15 +50,31 @@ export default function Dashboard() {
     setUserId(storedUserId);
     setUserName(storedUserName);
 
-    const unsubscribe = onSnapshot(collection(db, "users", storedUserId, "completedQuests"), (snapshot) => {
+    const unsubscribeQuests = onSnapshot(collection(db, "users", storedUserId, "completedQuests"), (snapshot) => {
       const completed = snapshot.docs.map(doc => doc.id);
       setCompletedQuests(completed);
     });
 
-    return () => unsubscribe();
+    const unsubscribeGallery = onSnapshot(collection(db, "gallery"), (snapshot) => {
+      const usersMap = new Map<string, string>();
+      snapshot.docs.forEach(doc => {
+        const data = doc.data();
+        if (data.userId && data.userName) {
+          usersMap.set(data.userId, data.userName);
+        }
+      });
+      usersMap.delete(storedUserId); // Remove self
+      const uniqueUsers = Array.from(usersMap.entries()).map(([id, name]) => ({ id, name }));
+      setUsersList(uniqueUsers);
+    });
+
+    return () => {
+      unsubscribeQuests();
+      unsubscribeGallery();
+    };
   }, [router]);
 
-  const handleQuestComplete = async (questId: string, file: File) => {
+  const handleQuestComplete = async (questId: string, file: File, caughtUserId?: string) => {
     if (!userId || !userName) return;
     setUploadingQuestId(questId);
 
@@ -76,8 +93,9 @@ export default function Dashboard() {
         userName,
         questId,
         imageUrl,
-        timestamp: new Date().toISOString()
-      });
+        timestamp: new Date().toISOString(),
+        ...(caughtUserId ? { caughtUserId } : {})
+      }, { merge: true });
 
     } catch (error) {
       console.error("Upload failed:", error);
@@ -124,7 +142,8 @@ export default function Dashboard() {
                 quest={quest}
                 status={status}
                 isUploading={uploadingQuestId === quest.id}
-                onComplete={(file) => handleQuestComplete(quest.id, file)}
+                onComplete={(file, selectedUserId) => handleQuestComplete(quest.id, file, selectedUserId)}
+                usersList={usersList}
               />
             </motion.div>
           );

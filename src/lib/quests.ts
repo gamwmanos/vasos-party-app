@@ -6,6 +6,7 @@ export interface Quest {
   description: string;
   isHidden?: boolean;
   points?: number;
+  requiresUserSelection?: boolean;
 }
 
 export const QUESTS: Quest[] = [
@@ -60,5 +61,24 @@ export const QUESTS: Quest[] = [
     description: 'Ρώτα και μάθε για την ιστορία στα αναφιώτικα και ανέβασε μια φωτό που το κάνεις recreate με έναν φίλο σου!',
     isHidden: true,
     points: 3
+  },
+  {
+    id: 'q11',
+    title: 'Piggyback Ride',
+    description: 'Ανέβασε στην πλάτη σου έναν άνθρωπο που ΔΕΝ ΞΕΡΕΙΣ ΚΑΙ ΕΙΝΑΙ ΑΝΤΙΘΕΤΟΥ ΦΥΛΟΥ!',
+    points: 1
+  },
+  {
+    id: 'q12',
+    title: 'Κατακόρυφο στα Κρυφά',
+    description: 'Πήγαινε σε ένα κρυφό μέρος του σπιτιού (όχι μπάνιο) και κάνε κατακόρυφο ΧΩΡΙΣ ΝΑ ΣΕ ΠΙΑΣΕΙ ΚΑΝΕΝΑΣ!',
+    points: 2
+  },
+  {
+    id: 'q13',
+    title: 'Πιάσε άτομο που κάνει κατακόρυφο!',
+    description: 'Αν πιάσεις κάποιον που προσπαθεί να κάνει κατακόρυφο στα πράσσα και τον βγάλεις φωτό, παίρνεις 1 πόντο και αυτός χάνει 2! Διάλεξε ποιον έπιασες από τη λίστα:',
+    points: 1,
+    requiresUserSelection: true
   }
 ];

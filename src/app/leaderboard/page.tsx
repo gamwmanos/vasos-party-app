@@ -36,6 +36,14 @@ export default function Leaderboard() {
         const points = quest?.points || 1;
         
         scores[data.userId].score += points;
+
+        if (data.questId === 'q13' && data.caughtUserId) {
+          if (!scores[data.caughtUserId]) {
+            // We shouldn't really hit this if they've uploaded, but just in case
+            scores[data.caughtUserId] = { userName: "Unknown", score: 0 };
+          }
+          scores[data.caughtUserId].score -= 2;
+        }
       });
 
       const sortedLeaders = Object.entries(scores)
