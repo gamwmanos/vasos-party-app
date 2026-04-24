@@ -224,6 +224,11 @@ export default function Dashboard() {
           <button onClick={() => router.push("/leaderboard")} className="p-3 bg-white/5 rounded-full border border-white/10 text-[#c0392b] hover:bg-white/10 transition-colors">
             <Trophy className="w-6 h-6" />
           </button>
+          {isAdmin && (
+            <button onClick={() => router.push("/admin")} className="p-3 bg-purple-900/50 rounded-full border border-purple-500/40 text-purple-300 hover:bg-purple-800/50 transition-colors" title="Admin Panel">
+              <span className="text-base">🛡️</span>
+            </button>
+          )}
         </div>
       </header>
 

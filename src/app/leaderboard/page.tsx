@@ -56,7 +56,23 @@ export default function Leaderboard() {
         .map(([userId, data]) => ({ userId, userName: data.userName, score: data.score }))
         .sort((a, b) => b.score - a.score);
 
-      setLeaders(sortedLeaders);
+      // Also listen to admin adjustments and merge
+      const adjUnsub = onSnapshot(collection(db, "adminAdjustments"), (adjSnap) => {
+        const adjusted = { ...scores };
+        adjSnap.docs.forEach(d => {
+          const data = d.data();
+          if (!adjusted[data.userId]) {
+            adjusted[data.userId] = { userName: data.userName, score: 0 };
+          }
+          adjusted[data.userId].score += data.amount;
+        });
+        const finalLeaders = Object.entries(adjusted)
+          .map(([userId, data]) => ({ userId, userName: data.userName, score: data.score }))
+          .sort((a, b) => b.score - a.score);
+        setLeaders(finalLeaders);
+      });
+
+      return () => adjUnsub();
     });
 
     return () => unsubscribe();
