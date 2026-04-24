@@ -102,6 +102,12 @@ export const QUESTS: Quest[] = [
     points: 2
   },
   {
+    id: 'q18',
+    title: 'Καβάλα στο Άλογο του Magg 🐴',
+    description: 'Βγάλε φωτό να καβαλάς το άλογο του Magg!',
+    points: 1
+  },
+  {
     id: 'q17',
     title: 'Στείλε Nudes στον Μανο 🔞',
     description: 'Στείλε nudes στον Μανο! 👧 Κορίτσι: +30 πόντοι 🎉 | 👦 Αγόρι: -100 πόντοι 💀 Ο Μανός αποφασίζει αν μετράει!',
