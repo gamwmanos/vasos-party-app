@@ -7,7 +7,6 @@ import { db } from "@/lib/firebase";
 import { QUESTS } from "@/lib/quests";
 import { motion } from "framer-motion";
 import { ArrowLeft, Star, Trophy, Camera } from "lucide-react";
-import Image from "next/image";
 
 interface MyPhoto {
   questId: string;
@@ -123,12 +122,12 @@ export default function MyProfile() {
                 transition={{ delay: i * 0.05 }}
                 className="relative rounded-2xl overflow-hidden border border-white/10 bg-black/40"
               >
-                <div className="aspect-square relative">
-                  <Image
+                <div className="aspect-square relative overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={photo.imageUrl}
                     alt={photo.questTitle}
-                    fill
-                    className="object-cover"
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="p-3">
