@@ -60,7 +60,7 @@ export const QUESTS: Quest[] = [
     title: 'Τα Αναφιώτικα',
     description: 'Ρώτα και μάθε για την ιστορία στα αναφιώτικα και ανέβασε μια φωτό που το κάνεις recreate με έναν φίλο σου!',
     isHidden: true,
-    points: 3
+    points: 4
   },
   {
     id: 'q11',
