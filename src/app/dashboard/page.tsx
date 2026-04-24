@@ -8,7 +8,7 @@ import { db, storage } from "@/lib/firebase";
 import { QUESTS, QuestStatus } from "@/lib/quests";
 import QuestCard from "@/components/QuestCard";
 import NotificationModal from "@/components/NotificationModal";
-import { Trophy, Image as ImageIcon } from "lucide-react";
+import { Trophy, Image as ImageIcon, User } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Dashboard() {
@@ -119,6 +119,9 @@ export default function Dashboard() {
         <div className="flex gap-3">
           <button onClick={() => router.push("/")} className="p-3 bg-white/5 rounded-full border border-white/10 text-white hover:bg-white/10 transition-colors">
             <span className="text-sm font-bold">HOME</span>
+          </button>
+          <button onClick={() => router.push("/profile")} className="p-3 bg-white/5 rounded-full border border-white/10 text-[#c0392b] hover:bg-white/10 transition-colors">
+            <User className="w-6 h-6" />
           </button>
           <button onClick={() => router.push("/gallery")} className="p-3 bg-white/5 rounded-full border border-white/10 text-[#c0392b] hover:bg-white/10 transition-colors">
             <ImageIcon className="w-6 h-6" />

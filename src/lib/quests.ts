@@ -90,7 +90,7 @@ export const QUESTS: Quest[] = [
   {
     id: 'q15',
     title: 'Caught in the Act 💋',
-    description: 'Πιάσε φωτό ένα φιλί! Δεν μετράει αν τα άτομα είναι ζευγάρι — πρέπει να είναι spontaneous!',
+    description: 'Πιάσε φωτό ένα φιλί ΣΤΟΜΑ ΜΕ ΣΤΟΜΑ! Δεν μετράει αν τα άτομα είναι ζευγάρι — πρέπει να είναι spontaneous!',
     points: 2
   }
 ];
