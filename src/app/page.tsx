@@ -38,9 +38,16 @@ export default function Home() {
     e.preventDefault();
     if (!name.trim() || !pin.trim()) return;
 
-    const newUserId = `${name.trim().toLowerCase().replace(/\s+/g, '-')}-${pin.trim()}`;
+    let finalName = name.trim();
+    const lowerName = finalName.toLowerCase();
+    // Normalize Danai's variations to one account
+    if (lowerName === "δανάη" || lowerName === "δαναη" || lowerName === "δανάη ραζή" || lowerName === "δαναη ραζη" || lowerName === "δανάη ραζη") {
+      finalName = "Δανάη ραζη";
+    }
+
+    const newUserId = `${finalName.toLowerCase().replace(/\s+/g, '-')}-${pin.trim()}`;
     localStorage.setItem("party_userId", newUserId);
-    localStorage.setItem("party_userName", name.trim());
+    localStorage.setItem("party_userName", finalName);
 
     router.push("/dashboard");
   };
