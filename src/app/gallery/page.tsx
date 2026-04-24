@@ -85,12 +85,9 @@ export default function Gallery() {
                           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                         />
                         <a 
-                          href={item.imageUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          download={`party_photo_${item.userName}.jpg`}
+                          href={`/api/download?url=${encodeURIComponent(item.imageUrl)}&userName=${encodeURIComponent(item.userName)}`}
                           className="absolute bottom-2 right-2 p-2 bg-black/70 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-neon-pink transition-all active:scale-90 flex items-center justify-center"
-                          title="Άνοιγμα & Λήψη"
+                          title="Λήψη Φωτογραφίας"
                         >
                           <Download className="w-4 h-4" />
                         </a>
