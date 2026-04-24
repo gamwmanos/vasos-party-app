@@ -42,7 +42,7 @@ export default function Leaderboard() {
             // We shouldn't really hit this if they've uploaded, but just in case
             scores[data.caughtUserId] = { userName: "Unknown", score: 0 };
           }
-          scores[data.caughtUserId].score -= 2;
+          scores[data.caughtUserId].score -= 3;
         }
       });
 
