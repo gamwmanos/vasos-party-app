@@ -93,7 +93,7 @@ export default function QuestCard({ quest, status, onComplete, isUploading, user
               accept="image/*"
               className="hidden"
               onChange={handleFileChange}
-              disabled={isUploading || (status === "active" && quest.requiresUserSelection && !selectedUserId)}
+              disabled={isUploading}
             />
           </label>
         </div>
