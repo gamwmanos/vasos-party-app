@@ -329,7 +329,7 @@ function AdminNudesPanel({ submissions, allUsers, onApprove, onRemove, onAwardMa
               <div key={sub.docId} className="bg-black/40 border border-white/10 rounded-2xl overflow-hidden">
                 {sub.imageUrl && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={sub.imageUrl} alt="nude submission" className="w-full max-h-80 object-cover" />
+                  <img src={sub.imageUrl} alt="nude submission" className="w-full max-h-[70vh] object-contain bg-black" />
                 )}
                 <div className="p-4 flex items-center justify-between gap-3">
                   <div>
