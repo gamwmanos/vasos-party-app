@@ -37,8 +37,10 @@ export default function Gallery() {
   const handleDownload = async (e: React.MouseEvent, imageUrl: string, userName: string) => {
     e.preventDefault();
     e.stopPropagation();
+    
     try {
-      const response = await fetch(imageUrl);
+      // Try fetching first (needs CORS configured in Firebase)
+      const response = await fetch(imageUrl, { mode: 'cors' });
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -49,8 +51,9 @@ export default function Gallery() {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
     } catch (error) {
-      console.error("Error downloading image:", error);
-      alert("Υπήρξε πρόβλημα με τη λήψη της φωτογραφίας.");
+      console.warn("Direct download failed, opening in new tab instead:", error);
+      // Fallback: Open in new tab so user can save it manually
+      window.open(imageUrl, '_blank');
     }
   };
 
@@ -89,31 +92,33 @@ export default function Gallery() {
                   <p className="text-sm text-gray-400">{quest.description}</p>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                   {questItems.map((item, i) => (
                     <motion.div 
                       key={item.id}
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: i * 0.05 }}
-                      className="relative aspect-square rounded-xl overflow-hidden bg-white/5 border border-white/10 group"
+                      className="relative flex flex-col group"
                     >
-                      <img 
-                        src={item.imageUrl} 
-                        alt="Party photo" 
-                        className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
-                        <div className="flex justify-between items-end">
-                          <span className="text-white text-sm font-semibold truncate">{item.userName}</span>
-                          <button 
-                            onClick={(e) => handleDownload(e, item.imageUrl, item.userName)}
-                            className="p-2 bg-white/20 rounded-full hover:bg-neon-pink transition-colors active:scale-95"
-                            title="Λήψη Φωτογραφίας"
-                          >
-                            <Download className="w-4 h-4 text-white" />
-                          </button>
-                        </div>
+                      <div className="relative aspect-square rounded-xl overflow-hidden bg-white/5 border border-white/10">
+                        <img 
+                          src={item.imageUrl} 
+                          alt="Party photo" 
+                          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                        />
+                        <button 
+                          onClick={(e) => handleDownload(e, item.imageUrl, item.userName)}
+                          className="absolute bottom-2 right-2 p-2 bg-black/60 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-neon-pink transition-colors active:scale-90"
+                          title="Λήψη Φωτογραφίας"
+                        >
+                          <Download className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <div className="mt-2 px-1 flex items-center justify-between">
+                        <span className="text-gray-300 text-xs font-medium truncate">
+                          Από: <span className="text-white font-bold">{item.userName}</span>
+                        </span>
                       </div>
                     </motion.div>
                   ))}
