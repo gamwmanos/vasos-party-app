@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Camera, CheckCircle2, Lock } from "lucide-react";
+import { Camera, CheckCircle2, Lock, RefreshCcw } from "lucide-react";
 import { clsx } from "clsx";
 import { Quest, QuestStatus } from "@/lib/quests";
 
@@ -48,11 +48,26 @@ export default function QuestCard({ quest, status, onComplete, isUploading }: Qu
         <div className="mt-5">
           <label className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-neon-pink text-white rounded-xl font-semibold cursor-pointer hover:bg-fuchsia-600 transition-colors active:scale-95">
             <Camera className="w-5 h-5" />
-            {isUploading ? "Ανέβασμα..." : "Άνοιγμα Κάμερας"}
+            {isUploading ? "Ανέβασμα..." : "Ανέβασμα Φωτογραφίας"}
             <input
               type="file"
               accept="image/*"
-              capture="environment"
+              className="hidden"
+              onChange={handleFileChange}
+              disabled={isUploading}
+            />
+          </label>
+        </div>
+      )}
+
+      {status === "completed" && (
+        <div className="mt-5">
+          <label className="flex items-center justify-center gap-2 w-full py-2 px-4 bg-transparent border border-neon-cyan text-neon-cyan rounded-xl font-semibold cursor-pointer hover:bg-neon-cyan/20 transition-colors active:scale-95 text-sm">
+            <RefreshCcw className="w-4 h-4" />
+            {isUploading ? "Ανέβασμα..." : "Αντικατάσταση Φωτογραφίας"}
+            <input
+              type="file"
+              accept="image/*"
               className="hidden"
               onChange={handleFileChange}
               disabled={isUploading}

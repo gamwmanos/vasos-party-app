@@ -6,7 +6,7 @@ import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { QUESTS } from "@/lib/quests";
 import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Download } from "lucide-react";
 
 interface GalleryItem {
   id: string;
@@ -33,6 +33,26 @@ export default function Gallery() {
 
     return () => unsubscribe();
   }, []);
+
+  const handleDownload = async (e: React.MouseEvent, imageUrl: string, userName: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `party_photo_${userName}_${Date.now()}.jpg`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Error downloading image:", error);
+      alert("Υπήρξε πρόβλημα με τη λήψη της φωτογραφίας.");
+    }
+  };
 
   // Group items by questId
   const groupedItems = items.reduce((acc, item) => {
@@ -84,7 +104,16 @@ export default function Gallery() {
                         className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
-                        <span className="text-white text-sm font-semibold truncate">{item.userName}</span>
+                        <div className="flex justify-between items-end">
+                          <span className="text-white text-sm font-semibold truncate">{item.userName}</span>
+                          <button 
+                            onClick={(e) => handleDownload(e, item.imageUrl, item.userName)}
+                            className="p-2 bg-white/20 rounded-full hover:bg-neon-pink transition-colors active:scale-95"
+                            title="Λήψη Φωτογραφίας"
+                          >
+                            <Download className="w-4 h-4 text-white" />
+                          </button>
+                        </div>
                       </div>
                     </motion.div>
                   ))}
