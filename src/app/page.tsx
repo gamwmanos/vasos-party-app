@@ -1,65 +1,451 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { MapPin, Calendar, Clock, Sparkles, Camera, Trophy, ChevronDown, Music, Heart, Star } from "lucide-react";
 import Image from "next/image";
 
 export default function Home() {
+  const [name, setName] = useState("");
+  const [pin, setPin] = useState("");
+  const [formMode, setFormMode] = useState<"register" | "login">("register");
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+  
+  const { scrollYProgress } = useScroll();
+
+  // Parallax effects
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const bgRotate = useTransform(scrollYProgress, [0, 1], [0, 45]);
+
+  const [hasSession, setHasSession] = useState(false);
+  const [existingName, setExistingName] = useState("");
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("party_userId");
+    const storedUserName = localStorage.getItem("party_userName");
+
+    if (storedUserId && storedUserName) {
+      setHasSession(true);
+      setExistingName(storedUserName);
+    }
+    setIsLoading(false);
+  }, []);
+
+  const handleJoin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !pin.trim()) return;
+
+    const newUserId = `${name.trim().toLowerCase().replace(/\s+/g, '-')}-${pin.trim()}`;
+    localStorage.setItem("party_userId", newUserId);
+    localStorage.setItem("party_userName", name.trim());
+
+    router.push("/dashboard");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("party_userId");
+    localStorage.removeItem("party_userName");
+    setHasSession(false);
+    setExistingName("");
+    setName("");
+    setPin("");
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--color-bg-dark)]">
+        <div className="w-16 h-16 border-4 border-neon-pink border-t-transparent rounded-full animate-spin glow-pink mb-8"></div>
+        <p className="text-neon-cyan font-bold animate-pulse text-xl">Loading the Party...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main className="bg-[var(--color-bg-dark)] text-white overflow-hidden relative">
+      
+      {/* Decorative Global Background Blobs */}
+      <motion.div 
+        style={{ rotate: bgRotate }}
+        className="fixed inset-0 z-0 pointer-events-none opacity-30"
+      >
+        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-neon-purple rounded-full blur-[150px] mix-blend-screen" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-neon-cyan rounded-full blur-[150px] mix-blend-screen" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-neon-pink rounded-full blur-[200px] mix-blend-screen" />
+      </motion.div>
+
+      {/* --- SECTION 1: HERO --- */}
+      <section className="relative h-screen flex flex-col items-center justify-center pt-20 pb-10 z-10">
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-black/60 z-10" />
+          <Image 
+            src="/hero-bg.png" 
+            alt="Party Background" 
+            fill 
+            className="object-cover object-center"
+            priority
+          />
+        </motion.div>
+
+        <div className="z-20 text-center flex flex-col items-center px-4 w-full max-w-5xl">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="mb-6 flex justify-center"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <div className="p-4 bg-white/5 backdrop-blur-xl border border-white/20 rounded-full glow-purple">
+              <Sparkles className="w-12 h-12 text-neon-pink" />
+            </div>
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-6xl md:text-8xl font-black mb-6 tracking-tighter"
           >
-            Documentation
-          </a>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink via-neon-purple to-neon-cyan text-glow-pink block mb-2">
+              VASO'S
+            </span>
+            <span className="text-white text-glow-cyan text-5xl md:text-7xl">CASINO NIGHT</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl md:text-2xl text-gray-300 font-medium max-w-2xl leading-relaxed"
+          >
+            Δεν είναι απλά ένα πάρτι. Είναι ένα παιχνίδι. Μπες, βρες τη Βάσω, ολοκλήρωσε τα quests και κατάκτησε την κορυφή.
+          </motion.p>
+          
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1 }}
+            className="absolute bottom-10 animate-bounce cursor-pointer"
+            onClick={() => {
+              document.getElementById('details')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            <ChevronDown className="w-12 h-12 text-neon-cyan opacity-80" />
+          </motion.div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* --- SECTION 2: PARTY DETAILS --- */}
+      <section id="details" className="relative py-32 z-10 px-4">
+        <div className="max-w-6xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Πού & Πότε;</h2>
+            <div className="w-24 h-1 bg-gradient-to-r from-neon-cyan to-neon-purple mx-auto rounded-full glow-cyan"></div>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Card 1: Location */}
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all hover:-translate-y-2 glow-purple group"
+            >
+              <div className="w-20 h-20 rounded-full bg-neon-purple/20 flex items-center justify-center mb-6 group-hover:bg-neon-purple/40 transition-colors">
+                <MapPin className="w-10 h-10 text-neon-purple" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-2">Τοποθεσία</h3>
+              <p className="text-gray-300 text-lg">
+                Κίμωνος & Πρασίνου Λόφου,<br/> Άρτεμις 190 16
+              </p>
+            </motion.div>
+
+            {/* Card 2: Date & Time */}
+            <motion.div 
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all hover:-translate-y-2 glow-pink group"
+            >
+              <div className="w-20 h-20 rounded-full bg-neon-pink/20 flex items-center justify-center mb-6 group-hover:bg-neon-pink/40 transition-colors">
+                <Calendar className="w-10 h-10 text-neon-pink" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-2">Πότε</h3>
+              <p className="text-gray-300 text-lg mb-2">Σάββατο Βράδυ</p>
+              <div className="flex items-center gap-2 text-neon-pink">
+                <Clock className="w-5 h-5" />
+                <span className="font-bold">Μετά τις 22:00</span>
+              </div>
+            </motion.div>
+
+            {/* Card 3: Vibe */}
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all hover:-translate-y-2 glow-cyan group"
+            >
+              <div className="w-20 h-20 rounded-full bg-neon-cyan/20 flex items-center justify-center mb-6 group-hover:bg-neon-cyan/40 transition-colors">
+                <Music className="w-10 h-10 text-neon-cyan" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-2">Dress Code</h3>
+              <p className="text-gray-300 text-lg">
+                Αυστηρά All Black. Ετοιμάσου για το απόλυτο casino look!
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- SECTION 3: THE BIRTHDAY GIRL --- */}
+      <section className="relative py-24 z-10 overflow-hidden bg-black/40 border-y border-white/5">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-16">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, type: "spring" }}
+            className="w-full md:w-1/2 relative h-[500px]"
+          >
+            {/* Image 1 (Back left) */}
+            <motion.div 
+              animate={{ y: [-5, 5, -5], rotate: [-8, -6, -8] }}
+              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+              className="absolute top-0 left-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-neon-cyan shadow-2xl z-10 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
+            >
+              <Image src="/IMG_2251.png" alt="Vaso 1" fill className="object-cover" />
+              <div className="absolute inset-0 bg-neon-cyan/20 mix-blend-overlay"></div>
+            </motion.div>
+
+            {/* Image 2 (Back right) */}
+            <motion.div 
+              animate={{ y: [5, -5, 5], rotate: [8, 6, 8] }}
+              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
+              className="absolute top-10 right-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-neon-purple shadow-2xl z-20 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
+            >
+              <Image src="/BASED.jpg" alt="Vaso 2" fill className="object-cover" />
+              <div className="absolute inset-0 bg-neon-purple/20 mix-blend-overlay"></div>
+            </motion.div>
+
+            {/* Image 3 (Front center) */}
+            <motion.div 
+              animate={{ y: [-8, 8, -8], rotate: [-2, 2, -2] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 2 }}
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[65%] aspect-[4/5] rounded-3xl overflow-hidden border-4 border-neon-pink glow-pink z-30 shadow-2xl hover:scale-105 transition-transform"
+            >
+              <Image src="/IMG_2226.png" alt="Vaso 3" fill className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-neon-pink/40 to-transparent opacity-60"></div>
+            </motion.div>
+            
+            {/* Floating Elements */}
+            <motion.div 
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+              className="absolute top-1/2 -right-4 bg-neon-pink p-3 rounded-full shadow-xl border border-white/20 z-40"
+            >
+              <Heart className="w-6 h-6 text-white fill-white" />
+            </motion.div>
+          </motion.div>
+
+          <div className="w-full md:w-1/2 space-y-6 text-center md:text-left">
+            <h2 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
+              Who is the VIP?
+            </h2>
+            <h3 className="text-6xl font-black text-neon-pink text-glow-pink">VASO</h3>
+            <p className="text-xl text-gray-300 leading-relaxed">
+              Απόψε γιορτάζουμε. Και ο καλύτερος τρόπος για να το κάνουμε είναι να γεμίσουμε το κινητό της με άπειρες στιγμές, challenges και φωτογραφίες. Το #1 Quest όλων είναι να βρουν τη Βάσω και να βγάλουν μια επική selfie μαζί της!
+            </p>
+            
+            <div className="flex flex-wrap gap-4 justify-center md:justify-start pt-4">
+              <span className="px-6 py-2 rounded-full bg-white/10 border border-neon-cyan text-neon-cyan font-bold tracking-wider">#CASINO_ROYALE</span>
+              <span className="px-6 py-2 rounded-full bg-white/10 border border-neon-purple text-neon-purple font-bold tracking-wider">#ALL_BLACK</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- SECTION 4: HOW TO PLAY --- */}
+      <section className="relative py-32 z-10 px-4">
+        <div className="max-w-5xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6">Πώς Παίζεται το Παιχνίδι</h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Ολοκλήρωσε προκλήσεις (Quests) κατά τη διάρκεια του πάρτι, ανέβασε φωτογραφίες ως αποδεικτικά στοιχεία, και ανέβα στο Leaderboard!
+            </p>
+          </motion.div>
+
+          <div className="space-y-16">
+            {/* Step 1 */}
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              className="flex flex-col md:flex-row items-center gap-8 md:gap-16"
+            >
+              <div className="w-32 h-32 flex-shrink-0 bg-neon-purple/20 rounded-full border-2 border-neon-purple flex items-center justify-center glow-purple relative">
+                <span className="absolute -top-4 -left-4 w-12 h-12 bg-neon-purple rounded-full flex items-center justify-center text-2xl font-bold">1</span>
+                <Sparkles className="w-16 h-16 text-neon-purple" />
+              </div>
+              <div>
+                <h3 className="text-3xl font-bold text-white mb-3">Δες τα Quests</h3>
+                <p className="text-xl text-gray-400">Μπες στο Dashboard. Εκεί θα βρεις μια λίστα από προκλήσεις, όπως "Πιες 3 σφηνάκια σερί" ή "Βρες 3 τυχαίους για φωτογραφία".</p>
+              </div>
+            </motion.div>
+
+            {/* Step 2 */}
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-16 text-right md:text-left"
+            >
+              <div className="w-32 h-32 flex-shrink-0 bg-neon-pink/20 rounded-full border-2 border-neon-pink flex items-center justify-center glow-pink relative">
+                <span className="absolute -top-4 -right-4 md:-right-auto md:-left-4 w-12 h-12 bg-neon-pink rounded-full flex items-center justify-center text-2xl font-bold text-white">2</span>
+                <Camera className="w-16 h-16 text-neon-pink" />
+              </div>
+              <div className="md:text-right">
+                <h3 className="text-3xl font-bold text-white mb-3">Βγάλε Φωτογραφία</h3>
+                <p className="text-xl text-gray-400">Πατάς "Άνοιγμα Κάμερας" στο quest που κάνεις. Βγάζεις τη φωτογραφία επιτόπου για να αποδείξεις ότι τα κατάφερες!</p>
+              </div>
+            </motion.div>
+
+            {/* Step 3 */}
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              className="flex flex-col md:flex-row items-center gap-8 md:gap-16"
+            >
+              <div className="w-32 h-32 flex-shrink-0 bg-neon-cyan/20 rounded-full border-2 border-neon-cyan flex items-center justify-center glow-cyan relative">
+                <span className="absolute -top-4 -left-4 w-12 h-12 bg-neon-cyan rounded-full flex items-center justify-center text-2xl font-bold text-black">3</span>
+                <Trophy className="w-16 h-16 text-neon-cyan" />
+              </div>
+              <div>
+                <h3 className="text-3xl font-bold text-white mb-3">Ανέβα στο Leaderboard</h3>
+                <p className="text-xl text-gray-400">Η φωτογραφία σου ανεβαίνει στο Live Gallery του πάρτι. Κάθε Quest σου δίνει πόντους. Ποιος θα έχει το μεγαλύτερο σκορ στο τέλος της βραδιάς;</p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- SECTION 5: JOIN THE GAME (FORM) --- */}
+      <section id="join" className="relative py-32 z-10 px-4 min-h-[80vh] flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-neon-purple/10 pointer-events-none"></div>
+        
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="w-full max-w-lg bg-black/60 backdrop-blur-2xl p-10 rounded-[2.5rem] border border-neon-purple/50 glow-purple relative z-10"
+        >
+          <div className="text-center mb-8">
+            <Star className="w-12 h-12 text-neon-cyan mx-auto mb-4 animate-pulse" />
+            <h2 className="text-4xl font-black text-white mb-2">Ready?</h2>
+            <p className="text-gray-400">Βάλε το όνομά σου για να μπεις στο παιχνίδι.</p>
+          </div>
+
+          {hasSession ? (
+            <div className="space-y-6 text-center">
+              <p className="text-xl text-gray-300">Έχεις ήδη μπει ως <strong className="text-neon-cyan">{existingName}</strong></p>
+              <button
+                onClick={() => router.push("/dashboard")}
+                className="w-full py-5 rounded-2xl bg-gradient-to-r from-neon-pink via-neon-purple to-neon-cyan text-white font-black text-2xl hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all glow-pink"
+              >
+                ΕΠΙΣΤΡΟΦΗ ΣΤΟ ΠΑΙΧΝΙΔΙ
+              </button>
+              <button
+                onClick={handleLogout}
+                className="text-gray-400 hover:text-white underline mt-4 block mx-auto"
+              >
+                Δεν είσαι ο/η {existingName}; Αλλαγή Παίκτη
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Tabs */}
+              <div className="flex rounded-2xl bg-white/5 p-1 border border-white/10">
+                <button
+                  type="button"
+                  onClick={() => setFormMode("register")}
+                  className={`flex-1 py-3 text-sm md:text-base font-bold rounded-xl transition-all ${
+                    formMode === "register" ? "bg-white/10 text-white shadow-lg" : "text-gray-500 hover:text-white"
+                  }`}
+                >
+                  ΜΟΛΙΣ ΗΡΘΑ
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormMode("login")}
+                  className={`flex-1 py-3 text-sm md:text-base font-bold rounded-xl transition-all ${
+                    formMode === "login" ? "bg-white/10 text-white shadow-lg" : "text-gray-500 hover:text-white"
+                  }`}
+                >
+                  ΕΧΩ ΞΑΝΑΜΠΕΙ
+                </button>
+              </div>
+
+              <form onSubmit={handleJoin} className="space-y-6">
+                <div className="space-y-4">
+                  <input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder={formMode === "register" ? "Το Όνομά σου (π.χ. Γιώργος)" : "Το Όνομα που είχες βάλει"}
+                    className="w-full px-6 py-5 rounded-2xl bg-white/5 border-2 border-white/10 text-white text-xl placeholder:text-gray-500 focus:outline-none focus:border-neon-cyan focus:bg-white/10 transition-all text-center font-bold"
+                    required
+                  />
+                  
+                  <input
+                    id="pin"
+                    type="text"
+                    maxLength={4}
+                    pattern="\d{4}"
+                    value={pin}
+                    onChange={(e) => setPin(e.target.value)}
+                    placeholder="4-ψήφιο PIN"
+                    className="w-full px-6 py-5 rounded-2xl bg-white/5 border-2 border-white/10 text-white text-xl placeholder:text-gray-500 focus:outline-none focus:border-neon-pink focus:bg-white/10 transition-all text-center font-bold tracking-[0.5em]"
+                    title="Βάλε 4 αριθμούς"
+                    required
+                  />
+                  <p className="text-sm text-gray-400 text-center">
+                    {formMode === "register" 
+                      ? "Διάλεξε ένα μυστικό PIN 4 αριθμών για τον λογαριασμό σου." 
+                      : "Βάλε το ίδιο PIN που είχες επιλέξει για να βρεις τον λογαριασμό σου."}
+                  </p>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full py-5 rounded-2xl bg-gradient-to-r from-neon-pink via-neon-purple to-neon-cyan text-white font-black text-2xl hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all glow-pink mt-4 uppercase"
+                >
+                  {formMode === "register" ? "JOIN THE PARTY" : "ΕΠΙΣΤΡΟΦΗ"}
+                </button>
+              </form>
+            </div>
+          )}
+        </motion.div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 text-center border-t border-white/5 z-10 relative">
+        <p className="text-gray-600 font-medium">© 2026 Vaso's Casino Night. Made with ❤️</p>
+      </footer>
+    </main>
   );
 }
