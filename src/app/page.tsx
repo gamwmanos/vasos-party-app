@@ -85,9 +85,9 @@ export default function Home() {
               backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(212,175,55,0.12) 28px, rgba(212,175,55,0.12) 29px), repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(212,175,55,0.06) 28px, rgba(212,175,55,0.06) 29px)`
             }} />
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-8 opacity-40">
-              {['♠','♥','♦','♣','♠','♥','♦','♣'].map((s,i) => <span key={i} className="text-4xl" style={{color: i%2===0 ? '#d4af37' : '#c0392b'}}>{s}</span>)}
+              {['♠','♥','♦','♣','♠','♥','♦','♣'].map((s,i) => <span key={i} className="text-4xl" style={{color: i%2===0 ? '#c0392b' : '#c0392b'}}>{s}</span>)}
             </div>
-            <div className="absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#d4af37] to-transparent opacity-60" />
+            <div className="absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#c0392b] to-transparent opacity-60" />
           </div>
           {/* Center: the image fully visible */}
           <div className="relative h-full" style={{ width: 'min(65vh, 100vw)', flexShrink: 0 }}>
@@ -107,9 +107,9 @@ export default function Home() {
               backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(212,175,55,0.12) 28px, rgba(212,175,55,0.12) 29px), repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(212,175,55,0.06) 28px, rgba(212,175,55,0.06) 29px)`
             }} />
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-8 opacity-40">
-              {['♣','♦','♥','♠','♣','♦','♥','♠'].map((s,i) => <span key={i} className="text-4xl" style={{color: i%2===0 ? '#d4af37' : '#c0392b'}}>{s}</span>)}
+              {['♣','♦','♥','♠','♣','♦','♥','♠'].map((s,i) => <span key={i} className="text-4xl" style={{color: i%2===0 ? '#c0392b' : '#c0392b'}}>{s}</span>)}
             </div>
-            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#d4af37] to-transparent opacity-60" />
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#c0392b] to-transparent opacity-60" />
           </div>
         </motion.div>
 
@@ -120,8 +120,8 @@ export default function Home() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="mb-6 flex justify-center"
           >
-            <div className="p-4 bg-white/5 backdrop-blur-xl border border-[#d4af37]/40 rounded-full glow-cyan">
-              <Sparkles className="w-12 h-12 text-[#d4af37]" />
+            <div className="p-4 bg-white/5 backdrop-blur-xl border border-[#c0392b]/40 rounded-full glow-cyan">
+              <Sparkles className="w-12 h-12 text-[#c0392b]" />
             </div>
           </motion.div>
           
@@ -131,10 +131,10 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-6xl md:text-8xl font-black mb-6 tracking-tighter"
           >
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] via-[#f5d76e] to-[#d4af37] text-glow-cyan block mb-2">
+            <span className="text-black drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] block mb-2">
               VASILIKI'S
             </span>
-            <span className="text-[#c0392b] text-glow-pink text-5xl md:text-7xl">CASINO NIGHT</span>
+            <span className="text-[#0f5e22] drop-shadow-[0_0_8px_rgba(15,94,34,0.8)] text-5xl md:text-7xl">CASINO NIGHT</span>
           </motion.h1>
           
           <motion.p 
@@ -170,7 +170,7 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Πού & Πότε;</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-[#d4af37] to-[#c0392b] mx-auto rounded-full glow-cyan"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-[#c0392b] to-[#c0392b] mx-auto rounded-full glow-cyan"></div>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -180,10 +180,10 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="bg-black/60 md:bg-[#1c0a0a]/80 backdrop-blur-sm md:backdrop-blur-lg border border-[#d4af37]/20 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-[#1c0a0a] transition-all hover:-translate-y-2 glow-purple group"
+              className="bg-black/60 md:bg-[#1c0a0a]/80 backdrop-blur-sm md:backdrop-blur-lg border border-[#c0392b]/20 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-[#1c0a0a] transition-all hover:-translate-y-2 glow-purple group"
             >
               <div className="w-20 h-20 rounded-full bg-[#7f1d1d]/40 flex items-center justify-center mb-6 group-hover:bg-[#7f1d1d]/60 transition-colors">
-                <MapPin className="w-10 h-10 text-[#d4af37]" />
+                <MapPin className="w-10 h-10 text-[#c0392b]" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">Τοποθεσία</h3>
               <p className="text-gray-300 text-lg">
@@ -197,7 +197,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="bg-black/60 md:bg-[#1c0a0a]/80 backdrop-blur-sm md:backdrop-blur-lg border border-[#d4af37]/20 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-[#1c0a0a] transition-all hover:-translate-y-2 glow-pink group"
+              className="bg-black/60 md:bg-[#1c0a0a]/80 backdrop-blur-sm md:backdrop-blur-lg border border-[#c0392b]/20 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-[#1c0a0a] transition-all hover:-translate-y-2 glow-pink group"
             >
               <div className="w-20 h-20 rounded-full bg-[#c0392b]/20 flex items-center justify-center mb-6 group-hover:bg-[#c0392b]/40 transition-colors">
                 <Calendar className="w-10 h-10 text-[#c0392b]" />
@@ -216,10 +216,10 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="bg-black/60 md:bg-[#1c0a0a]/80 backdrop-blur-sm md:backdrop-blur-lg border border-[#d4af37]/20 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-[#1c0a0a] transition-all hover:-translate-y-2 glow-cyan group"
+              className="bg-black/60 md:bg-[#1c0a0a]/80 backdrop-blur-sm md:backdrop-blur-lg border border-[#c0392b]/20 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-[#1c0a0a] transition-all hover:-translate-y-2 glow-cyan group"
             >
-              <div className="w-20 h-20 rounded-full bg-[#d4af37]/20 flex items-center justify-center mb-6 group-hover:bg-[#d4af37]/30 transition-colors">
-                <Music className="w-10 h-10 text-[#d4af37]" />
+              <div className="w-20 h-20 rounded-full bg-[#c0392b]/20 flex items-center justify-center mb-6 group-hover:bg-[#c0392b]/30 transition-colors">
+                <Music className="w-10 h-10 text-[#c0392b]" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">Dress Code</h3>
               <p className="text-gray-300 text-lg">
@@ -244,10 +244,10 @@ export default function Home() {
             <motion.div 
               animate={{ y: [-5, 5, -5] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="absolute top-0 left-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-[#d4af37] shadow-2xl z-10 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
+              className="absolute top-0 left-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-[#c0392b] shadow-2xl z-10 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
             >
               <Image src="/IMG_2251.png" alt="Vasiliki 1" fill sizes="(max-width: 768px) 55vw, 30vw" className="object-cover" />
-              <div className="absolute inset-0 bg-[#d4af37]/10"></div>
+              <div className="absolute inset-0 bg-[#c0392b]/10"></div>
             </motion.div>
 
             {/* Image 2 (Back right) */}
@@ -274,23 +274,23 @@ export default function Home() {
             <motion.div 
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-              className="absolute top-1/2 -right-4 bg-[#c0392b] p-3 rounded-full shadow-xl border border-[#d4af37]/30 z-40"
+              className="absolute top-1/2 -right-4 bg-[#c0392b] p-3 rounded-full shadow-xl border border-[#c0392b]/30 z-40"
             >
               <Heart className="w-6 h-6 text-white fill-white" />
             </motion.div>
           </motion.div>
 
           <div className="w-full md:w-1/2 space-y-6 text-center md:text-left">
-            <h2 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] to-[#f5d76e]">
+            <h2 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#c0392b] to-[#e74c3c]">
               Who is the VIP?
             </h2>
-            <h3 className="text-6xl font-black text-[#c0392b] text-glow-pink">VASILIKI</h3>
+            <h3 className="text-6xl font-black text-black drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">VASILIKI</h3>
             <p className="text-xl text-gray-300 leading-relaxed">
               Απόψε γιορτάζουμε. Και ο καλύτερος τρόπος για να το κάνουμε είναι να γεμίσουμε το κινητό της με άπειρες στιγμές, challenges και φωτογραφίες. Το #1 Quest όλων είναι να βρουν τη Βασιλική και να βγάλουν μια επική selfie μαζί της!
             </p>
             
             <div className="flex flex-wrap gap-4 justify-center md:justify-start pt-4">
-              <span className="px-6 py-2 rounded-full bg-[#d4af37]/10 border border-[#d4af37] text-[#d4af37] font-bold tracking-wider">#CASINO_ROYALE</span>
+              <span className="px-6 py-2 rounded-full bg-[#c0392b]/10 border border-[#c0392b] text-[#c0392b] font-bold tracking-wider">#CASINO_ROYALE</span>
               <span className="px-6 py-2 rounded-full bg-[#c0392b]/10 border border-[#c0392b] text-[#c0392b] font-bold tracking-wider">#ALL_BLACK</span>
             </div>
           </div>
@@ -322,7 +322,7 @@ export default function Home() {
             >
               <div className="w-32 h-32 flex-shrink-0 bg-[#7f1d1d]/30 rounded-full border-2 border-[#c0392b] flex items-center justify-center glow-purple relative">
                 <span className="absolute -top-4 -left-4 w-12 h-12 bg-[#c0392b] rounded-full flex items-center justify-center text-2xl font-bold">1</span>
-                <Sparkles className="w-16 h-16 text-[#d4af37]" />
+                <Sparkles className="w-16 h-16 text-[#c0392b]" />
               </div>
               <div>
                 <h3 className="text-3xl font-bold text-white mb-3">Δες τα Quests</h3>
@@ -354,9 +354,9 @@ export default function Home() {
               viewport={{ once: true, margin: "-100px" }}
               className="flex flex-col md:flex-row items-center gap-8 md:gap-16"
             >
-              <div className="w-32 h-32 flex-shrink-0 bg-[#d4af37]/20 rounded-full border-2 border-[#d4af37] flex items-center justify-center glow-cyan relative">
-                <span className="absolute -top-4 -left-4 w-12 h-12 bg-[#d4af37] rounded-full flex items-center justify-center text-2xl font-bold text-black">3</span>
-                <Trophy className="w-16 h-16 text-[#d4af37]" />
+              <div className="w-32 h-32 flex-shrink-0 bg-[#c0392b]/20 rounded-full border-2 border-[#c0392b] flex items-center justify-center glow-cyan relative">
+                <span className="absolute -top-4 -left-4 w-12 h-12 bg-[#c0392b] rounded-full flex items-center justify-center text-2xl font-bold text-black">3</span>
+                <Trophy className="w-16 h-16 text-[#c0392b]" />
               </div>
               <div>
                 <h3 className="text-3xl font-bold text-white mb-3">Ανέβα στο Leaderboard</h3>
@@ -375,10 +375,10 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="w-full max-w-lg bg-[#0f0505]/80 backdrop-blur-2xl p-10 rounded-[2.5rem] border border-[#d4af37]/40 glow-cyan relative z-10"
+          className="w-full max-w-lg bg-[#0f0505]/80 backdrop-blur-2xl p-10 rounded-[2.5rem] border border-[#c0392b]/40 glow-cyan relative z-10"
         >
           <div className="text-center mb-8">
-            <Star className="w-12 h-12 text-[#d4af37] mx-auto mb-4 animate-pulse" />
+            <Star className="w-12 h-12 text-[#c0392b] mx-auto mb-4 animate-pulse" />
             <h2 className="text-4xl font-black text-white mb-2">Ready?</h2>
             <p className="text-gray-400">Βάλε το όνομά σου για να μπεις στο παιχνίδι.</p>
           </div>
@@ -388,7 +388,7 @@ export default function Home() {
               <p className="text-xl text-gray-300">Έχεις ήδη μπει ως <strong className="text-neon-cyan">{existingName}</strong></p>
               <button
                 onClick={() => router.push("/dashboard")}
-                className="w-full py-5 rounded-2xl bg-gradient-to-r from-[#c0392b] via-[#7f1d1d] to-[#d4af37] text-white font-black text-2xl hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all glow-pink"
+                className="w-full py-5 rounded-2xl bg-gradient-to-r from-[#c0392b] via-[#7f1d1d] to-[#c0392b] text-white font-black text-2xl hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all glow-pink"
               >
                 ΕΠΙΣΤΡΟΦΗ ΣΤΟ ΠΑΙΧΝΙΔΙ
               </button>
@@ -431,7 +431,7 @@ export default function Home() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder={formMode === "register" ? "Το Όνομά σου (π.χ. Γιώργος)" : "Το Όνομα που είχες βάλει"}
-                    className="w-full px-6 py-5 rounded-2xl bg-white/5 border-2 border-white/10 text-white text-xl placeholder:text-gray-500 focus:outline-none focus:border-[#d4af37] focus:bg-white/10 transition-all text-center font-bold"
+                    className="w-full px-6 py-5 rounded-2xl bg-white/5 border-2 border-white/10 text-white text-xl placeholder:text-gray-500 focus:outline-none focus:border-[#c0392b] focus:bg-white/10 transition-all text-center font-bold"
                     required
                   />
                   
@@ -456,7 +456,7 @@ export default function Home() {
 
                 <button
                   type="submit"
-                  className="w-full py-5 rounded-2xl bg-gradient-to-r from-[#c0392b] via-[#7f1d1d] to-[#d4af37] text-white font-black text-2xl hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all glow-pink mt-4 uppercase"
+                  className="w-full py-5 rounded-2xl bg-gradient-to-r from-[#c0392b] via-[#7f1d1d] to-[#c0392b] text-white font-black text-2xl hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all glow-pink mt-4 uppercase"
                 >
                   {formMode === "register" ? "JOIN THE PARTY" : "ΕΠΙΣΤΡΟΦΗ"}
                 </button>

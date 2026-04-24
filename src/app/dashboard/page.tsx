@@ -75,7 +75,7 @@ export default function Dashboard() {
       <header className="flex items-center justify-between py-4 mb-6 border-b border-white/10">
         <div>
           <p className="text-gray-400 text-sm">Player</p>
-          <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] to-[#f5d76e] text-glow-cyan">
+          <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#c0392b] to-[#e74c3c] text-glow-cyan">
             {userName}
           </h2>
         </div>
@@ -86,7 +86,7 @@ export default function Dashboard() {
           <button onClick={() => router.push("/gallery")} className="p-3 bg-white/5 rounded-full border border-white/10 text-[#c0392b] hover:bg-white/10 transition-colors">
             <ImageIcon className="w-6 h-6" />
           </button>
-          <button onClick={() => router.push("/leaderboard")} className="p-3 bg-white/5 rounded-full border border-white/10 text-[#d4af37] hover:bg-white/10 transition-colors">
+          <button onClick={() => router.push("/leaderboard")} className="p-3 bg-white/5 rounded-full border border-white/10 text-[#c0392b] hover:bg-white/10 transition-colors">
             <Trophy className="w-6 h-6" />
           </button>
         </div>

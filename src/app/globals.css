@@ -3,15 +3,15 @@
 @theme {
   /* Casino Red/Gold Palette */
   --color-casino-red: #c0392b;
-  --color-casino-gold: #d4af37;
+  --color-casino-gold: #c0392b;
   --color-casino-deep: #7f1d1d;
   --color-casino-ruby: #991b1b;
-  --color-casino-light: #fde68a;
+  --color-casino-light: #e74c3c;
 
   /* Aliases for legacy references */
   --color-neon-pink: #c0392b;
   --color-neon-purple: #991b1b;
-  --color-neon-cyan: #d4af37;
+  --color-neon-cyan: #c0392b;
   
   --color-bg-dark: #0f0a0a;
   --color-bg-card: #1c0a0a;

@@ -92,7 +92,7 @@ export default function Gallery() {
         <button onClick={() => router.push("/dashboard")} className="p-2 bg-white/5 rounded-full text-white hover:bg-white/10">
           <ArrowLeft className="w-6 h-6" />
         </button>
-        <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] to-[#c0392b] text-glow-cyan">
+        <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#c0392b] to-[#c0392b] text-glow-cyan">
           Live Gallery
         </h2>
       </header>
@@ -108,7 +108,7 @@ export default function Gallery() {
             return (
               <div key={quest.id} className="space-y-4">
                 <div className="border-b border-white/10 pb-2">
-                  <h3 className="text-xl font-bold text-[#d4af37]">{quest.title}</h3>
+                  <h3 className="text-xl font-bold text-[#c0392b]">{quest.title}</h3>
                   <p className="text-sm text-gray-400">{quest.description}</p>
                 </div>
                 

@@ -39,7 +39,7 @@ export default function NotificationModal({ completedQuestIds }: NotificationMod
             initial={{ opacity: 0, scale: 0.8, y: 50 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 50 }}
-            className="w-full max-w-sm bg-[var(--color-bg-card)] border border-[#d4af37]/50 rounded-3xl p-6 glow-cyan relative"
+            className="w-full max-w-sm bg-[var(--color-bg-card)] border border-[#c0392b]/50 rounded-3xl p-6 glow-cyan relative"
           >
             <button 
               onClick={() => setIsOpen(false)}
@@ -49,8 +49,8 @@ export default function NotificationModal({ completedQuestIds }: NotificationMod
             </button>
 
             <div className="flex flex-col items-center text-center mt-2">
-              <div className="w-16 h-16 bg-[#d4af37]/20 rounded-full flex items-center justify-center mb-4">
-                <Sparkles className="w-8 h-8 text-[#d4af37]" />
+              <div className="w-16 h-16 bg-[#c0392b]/20 rounded-full flex items-center justify-center mb-4">
+                <Sparkles className="w-8 h-8 text-[#c0392b]" />
               </div>
               
               <h3 className="text-2xl font-black text-white mb-2">Νέο Quest!</h3>
@@ -63,7 +63,7 @@ export default function NotificationModal({ completedQuestIds }: NotificationMod
 
               <button 
                 onClick={() => setIsOpen(false)}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-[#c0392b] via-[#7f1d1d] to-[#d4af37] text-white font-bold hover:opacity-90 active:scale-95 transition-all"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-[#c0392b] via-[#7f1d1d] to-[#c0392b] text-white font-bold hover:opacity-90 active:scale-95 transition-all"
               >
                 Πάμε να το κάνουμε!
               </button>

@@ -49,7 +49,7 @@ export default function Leaderboard() {
         <button onClick={() => router.push("/dashboard")} className="p-2 bg-white/5 rounded-full text-white hover:bg-white/10">
           <ArrowLeft className="w-6 h-6" />
         </button>
-        <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] to-[#c0392b] text-glow-cyan">
+        <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#c0392b] to-[#c0392b] text-glow-cyan">
           Leaderboard
         </h2>
       </header>
@@ -79,7 +79,7 @@ export default function Leaderboard() {
               </div>
               
               <div className="z-10 flex flex-col items-end">
-                <span className="text-3xl font-black text-[#d4af37] text-glow-cyan">{leader.score}</span>
+                <span className="text-3xl font-black text-[#c0392b] text-glow-cyan">{leader.score}</span>
                 <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">Quests</span>
               </div>
             </motion.div>
