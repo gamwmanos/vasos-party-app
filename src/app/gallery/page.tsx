@@ -131,6 +131,7 @@ export default function Gallery() {
       ) : (
         <div className="space-y-12">
           {QUESTS.map((quest) => {
+            if (quest.id === 'q17') return null; // nudes stay private!
             const questItems = groupedItems[quest.id];
             if (!questItems || questItems.length === 0) return null;
 
