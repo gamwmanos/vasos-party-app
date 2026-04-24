@@ -246,7 +246,7 @@ export default function Home() {
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
               className="absolute top-0 left-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-[#c0392b] shadow-2xl z-10 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
             >
-              <Image src="/IMG_2251.png" alt="Vasiliki 1" fill sizes="(max-width: 768px) 55vw, 30vw" className="object-cover" />
+              <Image src="/tourta.jpg" alt="Vasiliki 1" fill sizes="(max-width: 768px) 55vw, 30vw" className="object-cover" />
               <div className="absolute inset-0 bg-[#c0392b]/10"></div>
             </motion.div>
 
