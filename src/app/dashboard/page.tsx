@@ -232,8 +232,6 @@ export default function Dashboard() {
         </div>
       </header>
 
-      )}
-
       {/* ADMIN PANEL: Award points for nudes (only manos-7716) */}
       {isAdmin && (
         <AdminNudesPanel

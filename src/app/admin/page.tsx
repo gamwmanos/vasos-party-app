@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { collection, onSnapshot, doc, setDoc, deleteDoc, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { QUESTS } from "@/lib/quests";
-import { ArrowLeft, Plus, Minus, Trash2, RefreshCw } from "lucide-react";
+import { ArrowLeft, Plus, Minus, Trash2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface PlayerScore {
