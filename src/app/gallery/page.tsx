@@ -6,7 +6,7 @@ import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { QUESTS } from "@/lib/quests";
 import { motion } from "framer-motion";
-import { ArrowLeft, Download } from "lucide-react";
+import { ArrowLeft, Download, ExternalLink } from "lucide-react";
 
 interface GalleryItem {
   id: string;
@@ -33,29 +33,6 @@ export default function Gallery() {
 
     return () => unsubscribe();
   }, []);
-
-  const handleDownload = async (e: React.MouseEvent, imageUrl: string, userName: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    try {
-      // Try fetching first (needs CORS configured in Firebase)
-      const response = await fetch(imageUrl, { mode: 'cors' });
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `party_photo_${userName}_${Date.now()}.jpg`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    } catch (error) {
-      console.warn("Direct download failed, opening in new tab instead:", error);
-      // Fallback: Open in new tab so user can save it manually
-      window.open(imageUrl, '_blank');
-    }
-  };
 
   // Group items by questId
   const groupedItems = items.reduce((acc, item) => {
@@ -107,16 +84,19 @@ export default function Gallery() {
                           alt="Party photo" 
                           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                         />
-                        <button 
-                          onClick={(e) => handleDownload(e, item.imageUrl, item.userName)}
-                          className="absolute bottom-2 right-2 p-2 bg-black/60 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-neon-pink transition-colors active:scale-90"
-                          title="Λήψη Φωτογραφίας"
+                        <a 
+                          href={item.imageUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          download={`party_photo_${item.userName}.jpg`}
+                          className="absolute bottom-2 right-2 p-2 bg-black/70 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-neon-pink transition-all active:scale-90 flex items-center justify-center"
+                          title="Άνοιγμα & Λήψη"
                         >
                           <Download className="w-4 h-4" />
-                        </button>
+                        </a>
                       </div>
                       <div className="mt-2 px-1 flex items-center justify-between">
-                        <span className="text-gray-300 text-xs font-medium truncate">
+                        <span className="text-gray-300 text-[10px] sm:text-xs font-medium truncate">
                           Από: <span className="text-white font-bold">{item.userName}</span>
                         </span>
                       </div>
