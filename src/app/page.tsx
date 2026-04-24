@@ -96,8 +96,8 @@ export default function Home() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="mb-6 flex justify-center"
           >
-            <div className="p-4 bg-white/5 backdrop-blur-xl border border-[#0f5e22]/60 rounded-full shadow-[0_0_15px_rgba(15,94,34,0.5)]">
-              <Sparkles className="w-12 h-12 text-[#0f5e22]" />
+            <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-[#0f5e22]/80 shadow-[0_0_30px_rgba(15,94,34,0.6)] relative glow-cyan">
+              <Image src="/IMG_2251.png" alt="Vaso VIP" fill className="object-cover" priority />
             </div>
           </motion.div>
           
