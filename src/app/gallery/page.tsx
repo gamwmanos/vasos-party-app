@@ -6,7 +6,7 @@ import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { QUESTS } from "@/lib/quests";
 import { motion } from "framer-motion";
-import { ArrowLeft, Download, ExternalLink } from "lucide-react";
+import { ArrowLeft, Download } from "lucide-react";
 
 interface GalleryItem {
   id: string;
@@ -20,6 +20,7 @@ interface GalleryItem {
 export default function Gallery() {
   const router = useRouter();
   const [items, setItems] = useState<GalleryItem[]>([]);
+  const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
   useEffect(() => {
     const q = query(collection(db, "gallery"), orderBy("timestamp", "desc"));
@@ -33,6 +34,48 @@ export default function Gallery() {
 
     return () => unsubscribe();
   }, []);
+
+  const handleShareOrDownload = async (e: React.MouseEvent, item: GalleryItem) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (downloadingId === item.id) return;
+    setDownloadingId(item.id);
+
+    try {
+      // Fetch the image via proxy to bypass CORS
+      const proxyUrl = `/api/download?url=${encodeURIComponent(item.imageUrl)}&userName=${encodeURIComponent(item.userName)}`;
+      const response = await fetch(proxyUrl);
+      const blob = await response.blob();
+      const file = new File([blob], `party_photo_${item.userName}.jpg`, { type: blob.type || 'image/jpeg' });
+
+      // Use Web Share API if supported (allows "Save Image" to Camera Roll)
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: `Party Photo by ${item.userName}`,
+        });
+      } else {
+        // Fallback to standard download
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = file.name;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }
+    } catch (error: any) {
+      // Ignore AbortError (user cancelled share)
+      if (error.name !== 'AbortError') {
+        console.error("Error sharing/downloading:", error);
+        window.open(item.imageUrl, '_blank');
+      }
+    } finally {
+      setDownloadingId(null);
+    }
+  };
 
   // Group items by questId
   const groupedItems = items.reduce((acc, item) => {
@@ -84,13 +127,18 @@ export default function Gallery() {
                           alt="Party photo" 
                           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                         />
-                        <a 
-                          href={`/api/download?url=${encodeURIComponent(item.imageUrl)}&userName=${encodeURIComponent(item.userName)}`}
-                          className="absolute bottom-2 right-2 p-2 bg-black/70 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-neon-pink transition-all active:scale-90 flex items-center justify-center"
-                          title="Λήψη Φωτογραφίας"
+                        <button 
+                          onClick={(e) => handleShareOrDownload(e, item)}
+                          disabled={downloadingId === item.id}
+                          className={`absolute bottom-2 right-2 p-2 rounded-full border text-white transition-all active:scale-90 flex items-center justify-center ${
+                            downloadingId === item.id 
+                              ? 'bg-neon-pink/50 border-neon-pink/50 cursor-not-allowed' 
+                              : 'bg-black/70 backdrop-blur-md border-white/20 hover:bg-neon-pink'
+                          }`}
+                          title="Αποθήκευση Φωτογραφίας"
                         >
-                          <Download className="w-4 h-4" />
-                        </a>
+                          <Download className={`w-4 h-4 ${downloadingId === item.id ? 'animate-pulse' : ''}`} />
+                        </button>
                       </div>
                       <div className="mt-2 px-1 flex items-center justify-between">
                         <span className="text-gray-300 text-[10px] sm:text-xs font-medium truncate">
