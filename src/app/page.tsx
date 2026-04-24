@@ -97,7 +97,7 @@ export default function Home() {
             className="mb-6 flex justify-center"
           >
             <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-[#0f5e22]/80 shadow-[0_0_30px_rgba(15,94,34,0.6)] relative glow-cyan">
-              <Image src="/IMG_2226.png" alt="Vaso VIP" fill className="object-cover" priority />
+              <Image src="/IMG_2251.png" alt="Vaso VIP" fill className="object-cover" priority />
             </div>
           </motion.div>
           
@@ -242,7 +242,7 @@ export default function Home() {
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 2 }}
               className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[65%] aspect-[4/5] rounded-3xl overflow-hidden border-4 border-[#c0392b] glow-pink z-30 shadow-2xl hover:scale-105 transition-transform"
             >
-              <Image src="/IMG_2226.png" alt="Vasiliki 3" fill sizes="(max-width: 768px) 65vw, 40vw" className="object-cover" priority />
+              <Image src="/IMG_2251.png" alt="Vasiliki 3" fill sizes="(max-width: 768px) 65vw, 40vw" className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-t from-[#c0392b]/40 to-transparent opacity-60"></div>
             </motion.div>
             
