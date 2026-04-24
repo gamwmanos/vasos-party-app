@@ -37,8 +37,13 @@ export default function QuestCard({ quest, status, onComplete, isUploading, user
       )}
     >
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <h3 className="text-xl font-bold text-white mb-1">{quest.title}</h3>
+        <div className="flex-1">
+          <div className="flex items-center gap-2 flex-wrap mb-1">
+            <h3 className="text-xl font-bold text-white">{quest.title}</h3>
+            <span className="flex items-center gap-1 bg-[#c0392b]/20 border border-[#c0392b]/50 text-[#e74c3c] text-xs font-black px-2 py-0.5 rounded-full">
+              ⭐ {quest.points ?? 1} {(quest.points ?? 1) === 1 ? "πόντος" : "πόντοι"}
+            </span>
+          </div>
           <p className="text-gray-400 text-sm">{quest.description}</p>
         </div>
         
