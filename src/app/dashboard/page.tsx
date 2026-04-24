@@ -175,6 +175,29 @@ export default function Dashboard() {
     await deleteDoc(doc(db, "users", submission.userId, "completedQuests", "q17"));
   };
 
+  // ADMIN: Manually award points to a user for q17
+  const handleAwardManual = async (targetUserId: string, targetUserName: string, gender: string) => {
+    const points = gender === 'female' ? 30 : -100;
+    await setDoc(doc(db, "gallery", `${targetUserId}_q17`), {
+      userId: targetUserId,
+      userName: targetUserName,
+      questId: 'q17',
+      imageUrl: '',
+      timestamp: new Date().toISOString(),
+      points,
+    });
+    await setDoc(doc(db, "users", targetUserId, "completedQuests", "q17"), {
+      completedAt: new Date().toISOString(),
+      points,
+    });
+  };
+
+  // ADMIN: Remove manually awarded points
+  const handleRemoveManualAward = async (targetUserId: string) => {
+    await deleteDoc(doc(db, "gallery", `${targetUserId}_q17`));
+    await deleteDoc(doc(db, "users", targetUserId, "completedQuests", "q17"));
+  };
+
   if (!userId) return null;
 
   const isAdmin = userId === 'manos-7716';
@@ -204,44 +227,24 @@ export default function Dashboard() {
         </div>
       </header>
 
-      {/* ADMIN PANEL: Nudes submissions (only for manos-7716) */}
-      {isAdmin && nudesSubmissions.length > 0 && (
-        <div className="mb-8 bg-yellow-900/20 border-2 border-yellow-500/50 rounded-3xl p-5">
-          <h3 className="text-yellow-400 font-black text-xl mb-4">🔞 Pending Nudes ({nudesSubmissions.length})</h3>
-          <div className="space-y-4">
-            {nudesSubmissions.map((sub) => (
-              <div key={sub.docId} className="bg-black/50 rounded-2xl overflow-hidden border border-white/10">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={sub.imageUrl} alt="submission" className="w-full max-h-64 object-cover" />
-                <div className="p-4">
-                  <p className="text-white font-bold text-lg">{sub.userName}</p>
-                  <p className={`font-black text-sm ${sub.gender === 'female' ? 'text-pink-400' : 'text-blue-400'}`}>
-                    {sub.gender === 'female' ? '👧 Κορίτσι → +30 πόντοι' : '👦 Αγόρι → -100 πόντοι'}
-                  </p>
-                  <div className="flex gap-3 mt-3">
-                    <button
-                      onClick={() => handleApproveNudes(sub)}
-                      className="flex-1 flex items-center justify-center gap-2 py-3 bg-green-600 hover:bg-green-500 text-white font-black rounded-xl transition-all active:scale-95"
-                    >
-                      <CheckCircle2 className="w-5 h-5" /> Approve
-                    </button>
-                    <button
-                      onClick={() => handleRemoveNudes(sub)}
-                      className="flex-1 flex items-center justify-center gap-2 py-3 bg-red-700 hover:bg-red-600 text-white font-black rounded-xl transition-all active:scale-95"
-                    >
-                      <XCircle className="w-5 h-5" /> Remove
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      )}
+
+      {/* ADMIN PANEL: Award points for nudes (only manos-7716) */}
+      {isAdmin && (
+        <AdminNudesPanel
+          submissions={nudesSubmissions}
+          allUsers={usersList}
+          onApprove={handleApproveNudes}
+          onRemove={handleRemoveNudes}
+          onAwardManual={handleAwardManual}
+        />
       )}
 
       <div className="space-y-4">
         {QUESTS.map((quest) => {
           if (quest.isHidden && !hasUnlockedHidden && !completedQuests.includes(quest.id) && userId !== 'manos-7716') return null;
+          // Admin sees q17 handled in the panel above, skip it here
+          if (quest.id === 'q17' && isAdmin) return null;
 
           const isCompleted = completedQuests.includes(quest.id);
           const isThisQuestPending = quest.id === 'q17' && pendingNudes;
@@ -295,5 +298,92 @@ export default function Dashboard() {
         </div>
       )}
     </main>
+  );
+}
+
+// ---- Admin Nudes Panel Component ----
+interface AdminNudesPanelProps {
+  submissions: NudesSubmission[];
+  allUsers: { id: string; name: string }[];
+  onApprove: (sub: NudesSubmission) => void;
+  onRemove: (sub: NudesSubmission) => void;
+  onAwardManual: (userId: string, userName: string, gender: string) => void;
+}
+
+function AdminNudesPanel({ submissions, allUsers, onApprove, onRemove, onAwardManual }: AdminNudesPanelProps) {
+  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedGender, setSelectedGender] = useState('');
+
+  return (
+    <div className="mb-8 bg-[#1a0a2e]/80 border-2 border-purple-500/40 rounded-3xl p-5">
+      <h3 className="text-purple-300 font-black text-xl mb-5">🔞 Admin — Nudes Quest</h3>
+
+      {submissions.length > 0 && (
+        <div className="mb-6">
+          <p className="text-gray-400 text-sm font-bold mb-3">PENDING ΕΓΚΡΙΣΗΣ:</p>
+          <div className="space-y-3">
+            {submissions.map((sub) => (
+              <div key={sub.docId} className="bg-black/40 border border-white/10 rounded-2xl p-4 flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-white font-bold">{sub.userName}</p>
+                  <p className={`text-xs font-black ${sub.gender === 'female' ? 'text-pink-400' : 'text-blue-400'}`}>
+                    {sub.gender === 'female' ? '👧 +30 πόντοι' : '👦 -100 πόντοι'}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={() => onApprove(sub)} className="px-4 py-2 bg-green-600 hover:bg-green-500 text-white font-black rounded-xl text-sm active:scale-95 transition-all">
+                    ✓ Δώσε
+                  </button>
+                  <button onClick={() => onRemove(sub)} className="px-4 py-2 bg-red-700 hover:bg-red-600 text-white font-black rounded-xl text-sm active:scale-95 transition-all">
+                    ✕ Αφαίρεσε
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <p className="text-gray-400 text-sm font-bold mb-3">ΧΕΙΡΟΚΙΝΗΤΗ ΒΑΘΜΟΛΟΓΗΣΗ:</p>
+      <div className="space-y-3">
+        <select
+          value={selectedUser}
+          onChange={(e) => setSelectedUser(e.target.value)}
+          className="w-full bg-black/50 border border-purple-500/40 text-white p-3 rounded-xl focus:outline-none"
+        >
+          <option value="">Επίλεξε χρήστη...</option>
+          {allUsers.map(u => (
+            <option key={u.id} value={u.id}>{u.name}</option>
+          ))}
+        </select>
+        <div className="flex gap-3">
+          <button
+            onClick={() => setSelectedGender('female')}
+            className={`flex-1 py-3 rounded-xl font-black transition-all ${selectedGender === 'female' ? 'bg-pink-500 text-white' : 'bg-pink-500/10 border border-pink-500/40 text-pink-400'}`}
+          >
+            👧 Κορίτσι (+30)
+          </button>
+          <button
+            onClick={() => setSelectedGender('male')}
+            className={`flex-1 py-3 rounded-xl font-black transition-all ${selectedGender === 'male' ? 'bg-blue-500 text-white' : 'bg-blue-500/10 border border-blue-500/40 text-blue-400'}`}
+          >
+            👦 Αγόρι (-100)
+          </button>
+        </div>
+        <button
+          onClick={() => {
+            if (!selectedUser || !selectedGender) return;
+            const user = allUsers.find(u => u.id === selectedUser);
+            if (user) onAwardManual(user.id, user.name, selectedGender);
+            setSelectedUser('');
+            setSelectedGender('');
+          }}
+          disabled={!selectedUser || !selectedGender}
+          className="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black transition-all active:scale-95"
+        >
+          Δώσε Πόντους 🎯
+        </button>
+      </div>
+    </div>
   );
 }
