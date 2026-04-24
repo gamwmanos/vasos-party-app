@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { collection, query, onSnapshot } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { QUESTS } from "@/lib/quests";
 import { motion } from "framer-motion";
 import { ArrowLeft, Crown, Medal } from "lucide-react";
 
@@ -30,7 +31,11 @@ export default function Leaderboard() {
         if (!scores[data.userId]) {
           scores[data.userId] = { userName: data.userName, score: 0 };
         }
-        scores[data.userId].score += 1;
+        
+        const quest = QUESTS.find(q => q.id === data.questId);
+        const points = quest?.points || 1;
+        
+        scores[data.userId].score += points;
       });
 
       const sortedLeaders = Object.entries(scores)

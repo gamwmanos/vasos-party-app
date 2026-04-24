@@ -4,6 +4,8 @@ export interface Quest {
   id: string;
   title: string;
   description: string;
+  isHidden?: boolean;
+  points?: number;
 }
 
 export const QUESTS: Quest[] = [
@@ -51,5 +53,12 @@ export const QUESTS: Quest[] = [
     id: 'q9',
     title: 'Get Inked!',
     description: 'Κάνε ένα από τα αυτοκόλλητα τατού του πάρτι και ανέβασε φωτογραφία να το δούμε!',
+  },
+  {
+    id: 'q10',
+    title: 'Τα Αναφιώτικα',
+    description: 'Ρώτα και μάθε για την ιστορία στα αναφιώτικα και ανέβασε μια φωτό που το κάνεις recreate με έναν φίλο σου!',
+    isHidden: true,
+    points: 2
   }
 ];
