@@ -45,7 +45,10 @@ export default function Home() {
       finalName = "Δανάη ραζη";
     }
 
-    const newUserId = `${finalName.toLowerCase().replace(/\s+/g, '-')}-${pin.trim()}`;
+    // Remove accents and make lowercase for the ID
+    const normalizedNameForId = finalName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, '-');
+    const newUserId = `${normalizedNameForId}-${pin.trim()}`;
+    
     localStorage.setItem("party_userId", newUserId);
     localStorage.setItem("party_userName", finalName);
 
