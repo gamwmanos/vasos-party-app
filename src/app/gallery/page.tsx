@@ -84,8 +84,6 @@ export default function Gallery() {
 
   // Group items by questId
   const groupedItems = items.reduce((acc, item) => {
-    if (item.userId === 'manos2-1234') return acc; // Hide manos2 photos from gallery
-
     if (!acc[item.questId]) {
       acc[item.questId] = [];
     }
