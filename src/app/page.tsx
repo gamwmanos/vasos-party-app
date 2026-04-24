@@ -78,39 +78,15 @@ export default function Home() {
 
       {/* --- SECTION 1: HERO --- */}
       <section className="relative h-screen flex flex-col items-center justify-center pt-20 pb-10 z-10">
-        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0 z-0 flex items-center justify-center">
-          {/* Left decorative panel */}
-          <div className="absolute left-0 top-0 bottom-0 hero-side-panel relative overflow-hidden" style={{ width: 'calc((100vw - min(100vh * 0.65, 100vw)) / 2)' }}>
-            <div className="absolute inset-0" style={{
-              backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(212,175,55,0.12) 28px, rgba(212,175,55,0.12) 29px), repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(212,175,55,0.06) 28px, rgba(212,175,55,0.06) 29px)`
-            }} />
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-8 opacity-40">
-              {['♠','♥','♦','♣','♠','♥','♦','♣'].map((s,i) => <span key={i} className="text-4xl" style={{color: i%2===0 ? '#c0392b' : '#c0392b'}}>{s}</span>)}
-            </div>
-            <div className="absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#c0392b] to-transparent opacity-60" />
-          </div>
-          {/* Center: the image fully visible */}
-          <div className="relative h-full" style={{ width: 'min(65vh, 100vw)', flexShrink: 0 }}>
-            <div className="absolute inset-0 bg-black/30 z-10" />
-            <Image 
-              src="/xarto.png" 
-              alt="Party Background" 
-              fill 
-              className="object-contain object-center"
-              priority
-              sizes="min(65vh, 100vw)"
-            />
-          </div>
-          {/* Right decorative panel */}
-          <div className="absolute right-0 top-0 bottom-0 hero-side-panel relative overflow-hidden" style={{ width: 'calc((100vw - min(100vh * 0.65, 100vw)) / 2)' }}>
-            <div className="absolute inset-0" style={{
-              backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(212,175,55,0.12) 28px, rgba(212,175,55,0.12) 29px), repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(212,175,55,0.06) 28px, rgba(212,175,55,0.06) 29px)`
-            }} />
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-8 opacity-40">
-              {['♣','♦','♥','♠','♣','♦','♥','♠'].map((s,i) => <span key={i} className="text-4xl" style={{color: i%2===0 ? '#c0392b' : '#c0392b'}}>{s}</span>)}
-            </div>
-            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#c0392b] to-transparent opacity-60" />
-          </div>
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-black/50 z-10" />
+          <Image 
+            src="/xarto.png" 
+            alt="Party Background" 
+            fill 
+            className="object-cover object-center opacity-80"
+            priority
+          />
         </motion.div>
 
         <div className="z-20 text-center flex flex-col items-center px-4 w-full max-w-5xl">
@@ -120,8 +96,8 @@ export default function Home() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="mb-6 flex justify-center"
           >
-            <div className="p-4 bg-white/5 backdrop-blur-xl border border-[#c0392b]/40 rounded-full glow-cyan">
-              <Sparkles className="w-12 h-12 text-[#c0392b]" />
+            <div className="p-4 bg-white/5 backdrop-blur-xl border border-[#0f5e22]/60 rounded-full shadow-[0_0_15px_rgba(15,94,34,0.5)]">
+              <Sparkles className="w-12 h-12 text-[#0f5e22]" />
             </div>
           </motion.div>
           
@@ -129,12 +105,12 @@ export default function Home() {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-6xl md:text-8xl font-black mb-6 tracking-tighter"
+            className="text-6xl md:text-8xl font-black mb-6 tracking-tighter uppercase"
           >
-            <span className="text-black drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] block mb-2">
-              VASILIKI'S
+            <span className="text-[#0f5e22] drop-shadow-[0_0_12px_rgba(15,94,34,0.6)] block mb-2">
+              VASO'S
             </span>
-            <span className="text-[#0f5e22] drop-shadow-[0_0_8px_rgba(15,94,34,0.8)] text-5xl md:text-7xl">CASINO NIGHT</span>
+            <span className="text-[#0ff] drop-shadow-[0_0_15px_rgba(0,255,255,0.7)] text-5xl md:text-7xl">CASINO NIGHT</span>
           </motion.h1>
           
           <motion.p 
@@ -216,7 +192,7 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="bg-black/60 md:bg-[#1c0a0a]/80 backdrop-blur-sm md:backdrop-blur-lg border border-[#c0392b]/20 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-[#1c0a0a] transition-all hover:-translate-y-2 glow-cyan group"
+              className="bg-black/60 md:bg-[#1c0a0a]/80 backdrop-blur-sm md:backdrop-blur-lg border border-[#c0392b]/20 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-[#1c0a0a] transition-all hover:-translate-y-2 glow-pink group"
             >
               <div className="w-20 h-20 rounded-full bg-[#c0392b]/20 flex items-center justify-center mb-6 group-hover:bg-[#c0392b]/30 transition-colors">
                 <Music className="w-10 h-10 text-[#c0392b]" />
@@ -266,7 +242,7 @@ export default function Home() {
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 2 }}
               className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[65%] aspect-[4/5] rounded-3xl overflow-hidden border-4 border-[#c0392b] glow-pink z-30 shadow-2xl hover:scale-105 transition-transform"
             >
-              <Image src="/IMG_2226.png" alt="Vasiliki 3" fill sizes="(max-width: 768px) 65vw, 40vw" className="object-cover" priority />
+              <Image src="/IMG_2251.png" alt="Vasiliki 3" fill sizes="(max-width: 768px) 65vw, 40vw" className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-t from-[#c0392b]/40 to-transparent opacity-60"></div>
             </motion.div>
             

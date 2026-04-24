@@ -21,6 +21,11 @@ export default function Gallery() {
   const router = useRouter();
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setCurrentUserId(localStorage.getItem("party_userId"));
+  }, []);
 
   useEffect(() => {
     const q = query(collection(db, "gallery"), orderBy("timestamp", "desc"));
@@ -112,42 +117,52 @@ export default function Gallery() {
                   <p className="text-sm text-gray-400">{quest.description}</p>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-                  {questItems.map((item, i) => (
-                    <motion.div 
-                      key={item.id}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: i * 0.05 }}
-                      className="relative flex flex-col group"
-                    >
-                      <div className="relative aspect-square rounded-xl overflow-hidden bg-white/5 border border-white/10">
-                        <img 
-                          src={item.imageUrl} 
-                          alt="Party photo" 
-                          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <button 
-                          onClick={(e) => handleShareOrDownload(e, item)}
-                          disabled={downloadingId === item.id}
-                          className={`absolute bottom-2 right-2 p-2 rounded-full border text-white transition-all active:scale-90 flex items-center justify-center ${
-                            downloadingId === item.id 
-                              ? 'bg-[#c0392b]/50 border-[#c0392b]/50 cursor-not-allowed' 
-                              : 'bg-black/70 backdrop-blur-md border-white/20 hover:bg-[#c0392b]'
-                          }`}
-                          title="Αποθήκευση Φωτογραφίας"
-                        >
-                          <Download className={`w-4 h-4 ${downloadingId === item.id ? 'animate-pulse' : ''}`} />
-                        </button>
-                      </div>
-                      <div className="mt-2 px-1 flex items-center justify-between">
-                        <span className="text-gray-300 text-[10px] sm:text-xs font-medium truncate">
-                          Από: <span className="text-white font-bold">{item.userName}</span>
-                        </span>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+                {questItems.some(item => item.userId === currentUserId) ? (
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+                    {questItems.map((item, i) => (
+                      <motion.div 
+                        key={item.id}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.05 }}
+                        className="relative flex flex-col group"
+                      >
+                        <div className="relative aspect-square rounded-xl overflow-hidden bg-white/5 border border-white/10">
+                          <img 
+                            src={item.imageUrl} 
+                            alt="Party photo" 
+                            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <button 
+                            onClick={(e) => handleShareOrDownload(e, item)}
+                            disabled={downloadingId === item.id}
+                            className={`absolute bottom-2 right-2 p-2 rounded-full border text-white transition-all active:scale-90 flex items-center justify-center ${
+                              downloadingId === item.id 
+                                ? 'bg-[#c0392b]/50 border-[#c0392b]/50 cursor-not-allowed' 
+                                : 'bg-black/70 backdrop-blur-md border-white/20 hover:bg-[#c0392b]'
+                            }`}
+                            title="Αποθήκευση Φωτογραφίας"
+                          >
+                            <Download className={`w-4 h-4 ${downloadingId === item.id ? 'animate-pulse' : ''}`} />
+                          </button>
+                        </div>
+                        <div className="mt-2 px-1 flex items-center justify-between">
+                          <span className="text-gray-300 text-[10px] sm:text-xs font-medium truncate">
+                            Από: <span className="text-white font-bold">{item.userName}</span>
+                          </span>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="bg-white/5 border border-[#c0392b]/30 rounded-xl p-8 flex flex-col items-center justify-center text-center">
+                    <div className="w-12 h-12 bg-[#c0392b]/20 rounded-full flex items-center justify-center mb-3">
+                      <span className="text-2xl">🔒</span>
+                    </div>
+                    <p className="text-white font-medium mb-1">Κρυφό Περιεχόμενο</p>
+                    <p className="text-sm text-gray-400">Ανέβασε πρώτα τη δική σου φωτογραφία σε αυτό το quest για να δεις τι ανέβασαν οι άλλοι!</p>
+                  </div>
+                )}
               </div>
             );
           })}

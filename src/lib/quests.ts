@@ -14,8 +14,8 @@ export const QUESTS: Quest[] = [
   },
   {
     id: 'q2',
-    title: 'Triple Threat',
-    description: 'Πιες 3 σφηνάκια σερί (ανέβασε φωτό με τα άδεια ποτήρια).',
+    title: 'Roulette',
+    description: 'Όλοι πρέπει να πιουν σφηνάκι από την ρουλέτα!',
   },
   {
     id: 'q3',
@@ -46,5 +46,10 @@ export const QUESTS: Quest[] = [
     id: 'q8',
     title: 'DJ Apprentice',
     description: 'Βγάλε μια φωτογραφία με τον DJ του πάρτι.',
+  },
+  {
+    id: 'q9',
+    title: 'Get Inked!',
+    description: 'Κάνε ένα από τα αυτοκόλλητα τατού του πάρτι και ανέβασε φωτογραφία να το δούμε!',
   }
 ];
