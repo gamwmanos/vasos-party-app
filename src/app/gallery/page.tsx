@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy, doc, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { QUESTS } from "@/lib/quests";
 import { motion } from "framer-motion";
-import { ArrowLeft, Download } from "lucide-react";
+import { ArrowLeft, Download, Trash2 } from "lucide-react";
 
 interface GalleryItem {
   id: string;
@@ -21,6 +21,7 @@ export default function Gallery() {
   const router = useRouter();
   const [items, setItems] = useState<GalleryItem[]>([]);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -48,20 +49,17 @@ export default function Gallery() {
     setDownloadingId(item.id);
 
     try {
-      // Fetch the image via proxy to bypass CORS
       const proxyUrl = `/api/download?url=${encodeURIComponent(item.imageUrl)}&userName=${encodeURIComponent(item.userName)}`;
       const response = await fetch(proxyUrl);
       const blob = await response.blob();
       const file = new File([blob], `party_photo_${item.userName}.jpg`, { type: blob.type || 'image/jpeg' });
 
-      // Use Web Share API if supported (allows "Save Image" to Camera Roll)
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
           files: [file],
           title: `Party Photo by ${item.userName}`,
         });
       } else {
-        // Fallback to standard download
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
@@ -72,13 +70,32 @@ export default function Gallery() {
         document.body.removeChild(a);
       }
     } catch (error: any) {
-      // Ignore AbortError (user cancelled share)
       if (error.name !== 'AbortError') {
         console.error("Error sharing/downloading:", error);
         window.open(item.imageUrl, '_blank');
       }
     } finally {
       setDownloadingId(null);
+    }
+  };
+
+  const handleAdminDelete = async (e: React.MouseEvent, item: GalleryItem) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!confirm(`Διαγραφή φωτογραφίας του/της ${item.userName} για το "${QUESTS.find(q => q.id === item.questId)?.title}";\nΟι πόντοι θα αφαιρεθούν αυτόματα.`)) return;
+
+    setDeletingId(item.id);
+    try {
+      // Remove from gallery (leaderboard reads from this)
+      await deleteDoc(doc(db, "gallery", item.id));
+      // Remove from user's completedQuests so they can resubmit
+      await deleteDoc(doc(db, "users", item.userId, "completedQuests", item.questId));
+    } catch (err) {
+      console.error("Delete failed:", err);
+      alert("Κάτι πήγε στραβά!");
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -91,6 +108,8 @@ export default function Gallery() {
     return acc;
   }, {} as Record<string, GalleryItem[]>);
 
+  const isAdmin = currentUserId === 'manos-7716';
+
   return (
     <main className="min-h-screen bg-[var(--color-bg-dark)] p-4 pb-24">
       <header className="flex items-center gap-4 py-4 mb-6">
@@ -100,6 +119,11 @@ export default function Gallery() {
         <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#c0392b] to-[#c0392b] text-glow-cyan">
           Live Gallery
         </h2>
+        {isAdmin && (
+          <span className="ml-auto text-xs bg-red-900/50 border border-red-500/50 text-red-400 px-3 py-1 rounded-full font-bold">
+            🛡️ Admin Mode
+          </span>
+        )}
       </header>
 
       {items.length === 0 ? (
@@ -117,7 +141,7 @@ export default function Gallery() {
                   <p className="text-sm text-gray-400">{quest.description}</p>
                 </div>
                 
-                {questItems.some(item => item.userId === currentUserId) || currentUserId === 'manos-7716' ? (
+                {questItems.some(item => item.userId === currentUserId) || isAdmin ? (
                   <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                     {questItems.map((item, i) => (
                       <motion.div 
@@ -133,6 +157,7 @@ export default function Gallery() {
                             alt="Party photo" 
                             className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                           />
+                          {/* Download button */}
                           <button 
                             onClick={(e) => handleShareOrDownload(e, item)}
                             disabled={downloadingId === item.id}
@@ -145,6 +170,18 @@ export default function Gallery() {
                           >
                             <Download className={`w-4 h-4 ${downloadingId === item.id ? 'animate-pulse' : ''}`} />
                           </button>
+
+                          {/* Admin delete button */}
+                          {isAdmin && (
+                            <button
+                              onClick={(e) => handleAdminDelete(e, item)}
+                              disabled={deletingId === item.id}
+                              className="absolute top-2 left-2 p-2 rounded-full bg-red-700/80 backdrop-blur-md border border-red-500/50 text-white hover:bg-red-600 transition-all active:scale-90"
+                              title="Διαγραφή φωτογραφίας"
+                            >
+                              <Trash2 className={`w-4 h-4 ${deletingId === item.id ? 'animate-pulse' : ''}`} />
+                            </button>
+                          )}
                         </div>
                         <div className="mt-2 px-1 flex items-center justify-between">
                           <span className="text-gray-300 text-[10px] sm:text-xs font-medium truncate">
