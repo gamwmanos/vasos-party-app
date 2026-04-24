@@ -66,14 +66,14 @@ export default function Home() {
   return (
     <main className="bg-[var(--color-bg-dark)] text-white overflow-hidden relative">
       
-      {/* Decorative Global Background Blobs */}
+      {/* Decorative Global Background Blobs - Optimized for Mobile */}
       <motion.div 
         style={{ rotate: bgRotate }}
-        className="fixed inset-0 z-0 pointer-events-none opacity-30"
+        className="fixed inset-0 z-0 pointer-events-none opacity-40 md:opacity-30"
       >
-        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-neon-purple rounded-full blur-[150px] mix-blend-screen" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-neon-cyan rounded-full blur-[150px] mix-blend-screen" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-neon-pink rounded-full blur-[200px] mix-blend-screen" />
+        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(168,85,247,0.4)_0%,transparent_60%)] rounded-full" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(6,182,212,0.4)_0%,transparent_60%)] rounded-full" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(236,72,153,0.3)_0%,transparent_60%)] rounded-full" />
       </motion.div>
 
       {/* --- SECTION 1: HERO --- */}
@@ -86,6 +86,7 @@ export default function Home() {
             fill 
             className="object-cover object-center"
             priority
+            sizes="100vw"
           />
         </motion.div>
 
@@ -156,7 +157,7 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all hover:-translate-y-2 glow-purple group"
+              className="bg-black/60 md:bg-white/5 backdrop-blur-sm md:backdrop-blur-lg border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all hover:-translate-y-2 glow-purple group"
             >
               <div className="w-20 h-20 rounded-full bg-neon-purple/20 flex items-center justify-center mb-6 group-hover:bg-neon-purple/40 transition-colors">
                 <MapPin className="w-10 h-10 text-neon-purple" />
@@ -173,7 +174,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all hover:-translate-y-2 glow-pink group"
+              className="bg-black/60 md:bg-white/5 backdrop-blur-sm md:backdrop-blur-lg border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all hover:-translate-y-2 glow-pink group"
             >
               <div className="w-20 h-20 rounded-full bg-neon-pink/20 flex items-center justify-center mb-6 group-hover:bg-neon-pink/40 transition-colors">
                 <Calendar className="w-10 h-10 text-neon-pink" />
@@ -192,7 +193,7 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all hover:-translate-y-2 glow-cyan group"
+              className="bg-black/60 md:bg-white/5 backdrop-blur-sm md:backdrop-blur-lg border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all hover:-translate-y-2 glow-cyan group"
             >
               <div className="w-20 h-20 rounded-full bg-neon-cyan/20 flex items-center justify-center mb-6 group-hover:bg-neon-cyan/40 transition-colors">
                 <Music className="w-10 h-10 text-neon-cyan" />
@@ -218,31 +219,31 @@ export default function Home() {
           >
             {/* Image 1 (Back left) */}
             <motion.div 
-              animate={{ y: [-5, 5, -5], rotate: [-8, -6, -8] }}
+              animate={{ y: [-5, 5, -5] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
               className="absolute top-0 left-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-neon-cyan shadow-2xl z-10 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
             >
-              <Image src="/IMG_2251.png" alt="Vaso 1" fill className="object-cover" />
-              <div className="absolute inset-0 bg-neon-cyan/20 mix-blend-overlay"></div>
+              <Image src="/IMG_2251.png" alt="Vaso 1" fill sizes="(max-width: 768px) 55vw, 30vw" className="object-cover" />
+              <div className="absolute inset-0 bg-neon-cyan/20"></div>
             </motion.div>
 
             {/* Image 2 (Back right) */}
             <motion.div 
-              animate={{ y: [5, -5, 5], rotate: [8, 6, 8] }}
+              animate={{ y: [5, -5, 5] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
               className="absolute top-10 right-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-neon-purple shadow-2xl z-20 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
             >
-              <Image src="/BASED.jpg" alt="Vaso 2" fill className="object-cover" />
-              <div className="absolute inset-0 bg-neon-purple/20 mix-blend-overlay"></div>
+              <Image src="/BASED.jpg" alt="Vaso 2" fill sizes="(max-width: 768px) 55vw, 30vw" className="object-cover" />
+              <div className="absolute inset-0 bg-neon-purple/20"></div>
             </motion.div>
 
             {/* Image 3 (Front center) */}
             <motion.div 
-              animate={{ y: [-8, 8, -8], rotate: [-2, 2, -2] }}
+              animate={{ y: [-8, 8, -8] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 2 }}
               className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[65%] aspect-[4/5] rounded-3xl overflow-hidden border-4 border-neon-pink glow-pink z-30 shadow-2xl hover:scale-105 transition-transform"
             >
-              <Image src="/IMG_2226.png" alt="Vaso 3" fill className="object-cover" />
+              <Image src="/IMG_2226.png" alt="Vaso 3" fill sizes="(max-width: 768px) 65vw, 40vw" className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-t from-neon-pink/40 to-transparent opacity-60"></div>
             </motion.div>
             
