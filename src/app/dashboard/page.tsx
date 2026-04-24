@@ -146,33 +146,14 @@ export default function Dashboard() {
     }
   };
 
-  // ADMIN: Approve a nudes submission
+  // ADMIN: Accept nudes submission (just clears it from queue, points handled manually)
   const handleApproveNudes = async (submission: NudesSubmission) => {
-    const points = submission.gender === 'female' ? 30 : -100;
-    // Add to gallery with correct points
-    await setDoc(doc(db, "gallery", `${submission.userId}_q17`), {
-      userId: submission.userId,
-      userName: submission.userName,
-      questId: 'q17',
-      imageUrl: submission.imageUrl,
-      timestamp: submission.timestamp,
-      points,
-    });
-    // Update completedQuests to remove pending flag
-    await setDoc(doc(db, "users", submission.userId, "completedQuests", "q17"), {
-      completedAt: submission.timestamp,
-      imageUrl: submission.imageUrl,
-      pending: false,
-      points,
-    });
-    // Delete from pending
     await deleteDoc(doc(db, "nudesSubmissions", submission.docId));
   };
 
-  // ADMIN: Remove a nudes submission (reject)
+  // ADMIN: Reject nudes submission (just clears it from queue, no penalties)
   const handleRemoveNudes = async (submission: NudesSubmission) => {
     await deleteDoc(doc(db, "nudesSubmissions", submission.docId));
-    await deleteDoc(doc(db, "users", submission.userId, "completedQuests", "q17"));
   };
 
   // ADMIN: Manually award points to a user for q17
