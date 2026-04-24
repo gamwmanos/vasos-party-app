@@ -81,7 +81,7 @@ export default function Home() {
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-black/60 z-10" />
           <Image 
-            src="/hero-bg.png" 
+            src="/xarto.png" 
             alt="Party Background" 
             fill 
             className="object-cover object-center"
@@ -109,7 +109,7 @@ export default function Home() {
             className="text-6xl md:text-8xl font-black mb-6 tracking-tighter"
           >
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink via-neon-purple to-neon-cyan text-glow-pink block mb-2">
-              VASO'S
+              VASILIKI'S
             </span>
             <span className="text-white text-glow-cyan text-5xl md:text-7xl">CASINO NIGHT</span>
           </motion.h1>
@@ -120,7 +120,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl md:text-2xl text-gray-300 font-medium max-w-2xl leading-relaxed"
           >
-            Δεν είναι απλά ένα πάρτι. Είναι ένα παιχνίδι. Μπες, βρες τη Βάσω, ολοκλήρωσε τα quests και κατάκτησε την κορυφή.
+            Δεν είναι απλά ένα πάρτι. Είναι ένα παιχνίδι. Μπες, βρες τη Βασιλική, ολοκλήρωσε τα quests και κατάκτησε την κορυφή.
           </motion.p>
           
           <motion.div 
@@ -223,7 +223,7 @@ export default function Home() {
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
               className="absolute top-0 left-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-neon-cyan shadow-2xl z-10 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
             >
-              <Image src="/IMG_2251.png" alt="Vaso 1" fill sizes="(max-width: 768px) 55vw, 30vw" className="object-cover" />
+              <Image src="/IMG_2251.png" alt="Vasiliki 1" fill sizes="(max-width: 768px) 55vw, 30vw" className="object-cover" />
               <div className="absolute inset-0 bg-neon-cyan/20"></div>
             </motion.div>
 
@@ -233,7 +233,7 @@ export default function Home() {
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
               className="absolute top-10 right-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-neon-purple shadow-2xl z-20 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
             >
-              <Image src="/BASED.jpg" alt="Vaso 2" fill sizes="(max-width: 768px) 55vw, 30vw" className="object-cover" />
+              <Image src="/BASED.jpg" alt="Vasiliki 2" fill sizes="(max-width: 768px) 55vw, 30vw" className="object-cover" />
               <div className="absolute inset-0 bg-neon-purple/20"></div>
             </motion.div>
 
@@ -243,7 +243,7 @@ export default function Home() {
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 2 }}
               className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[65%] aspect-[4/5] rounded-3xl overflow-hidden border-4 border-neon-pink glow-pink z-30 shadow-2xl hover:scale-105 transition-transform"
             >
-              <Image src="/IMG_2226.png" alt="Vaso 3" fill sizes="(max-width: 768px) 65vw, 40vw" className="object-cover" priority />
+              <Image src="/IMG_2226.png" alt="Vasiliki 3" fill sizes="(max-width: 768px) 65vw, 40vw" className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-t from-neon-pink/40 to-transparent opacity-60"></div>
             </motion.div>
             
@@ -261,9 +261,9 @@ export default function Home() {
             <h2 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
               Who is the VIP?
             </h2>
-            <h3 className="text-6xl font-black text-neon-pink text-glow-pink">VASO</h3>
+            <h3 className="text-6xl font-black text-neon-pink text-glow-pink">VASILIKI</h3>
             <p className="text-xl text-gray-300 leading-relaxed">
-              Απόψε γιορτάζουμε. Και ο καλύτερος τρόπος για να το κάνουμε είναι να γεμίσουμε το κινητό της με άπειρες στιγμές, challenges και φωτογραφίες. Το #1 Quest όλων είναι να βρουν τη Βάσω και να βγάλουν μια επική selfie μαζί της!
+              Απόψε γιορτάζουμε. Και ο καλύτερος τρόπος για να το κάνουμε είναι να γεμίσουμε το κινητό της με άπειρες στιγμές, challenges και φωτογραφίες. Το #1 Quest όλων είναι να βρουν τη Βασιλική και να βγάλουν μια επική selfie μαζί της!
             </p>
             
             <div className="flex flex-wrap gap-4 justify-center md:justify-start pt-4">
@@ -445,7 +445,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="py-8 text-center border-t border-white/5 z-10 relative">
-        <p className="text-gray-600 font-medium">© 2026 Vaso's Casino Night. Made with ❤️</p>
+        <p className="text-gray-600 font-medium">© 2026 Vasiliki's Casino Night. Made with ❤️</p>
       </footer>
     </main>
   );

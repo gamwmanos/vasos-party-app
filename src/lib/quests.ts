@@ -10,7 +10,7 @@ export const QUESTS: Quest[] = [
   {
     id: 'q1',
     title: 'The Birthday VIP',
-    description: 'Βγάλε μια φωτογραφία με τη Βάσω (την εορτάζουσα)!',
+    description: 'Βγάλε μια φωτογραφία με τη Βασιλική (την εορτάζουσα)!',
   },
   {
     id: 'q2',
