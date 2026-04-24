@@ -81,7 +81,7 @@ export default function Home() {
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-black/50 z-10" />
           <Image 
-            src="/xarto.png" 
+            src="/hero-bg.png" 
             alt="Party Background" 
             fill 
             className="object-cover object-center opacity-80"
