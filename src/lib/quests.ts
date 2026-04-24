@@ -86,5 +86,11 @@ export const QUESTS: Quest[] = [
     title: 'Clothes Swap 🔄',
     description: 'Πείσε κάποιον να αλλάξετε μπλούζα, παντελόνι ή ολόκληρο φόρεμα και βγάλτε μια πόζα σαν να είναι το catwalk σας!',
     points: 2
+  },
+  {
+    id: 'q15',
+    title: 'Caught in the Act 💋',
+    description: 'Πιάσε φωτό ένα φιλί! Δεν μετράει αν τα άτομα είναι ζευγάρι — πρέπει να είναι spontaneous!',
+    points: 2
   }
 ];
