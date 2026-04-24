@@ -324,22 +324,28 @@ function AdminNudesPanel({ submissions, allUsers, onApprove, onRemove, onAwardMa
       {submissions.length > 0 && (
         <div className="mb-6">
           <p className="text-gray-400 text-sm font-bold mb-3">PENDING ΕΓΚΡΙΣΗΣ:</p>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {submissions.map((sub) => (
-              <div key={sub.docId} className="bg-black/40 border border-white/10 rounded-2xl p-4 flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-white font-bold">{sub.userName}</p>
-                  <p className={`text-xs font-black ${sub.gender === 'female' ? 'text-pink-400' : 'text-blue-400'}`}>
-                    {sub.gender === 'female' ? '👧 +30 πόντοι' : '👦 -100 πόντοι'}
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <button onClick={() => onApprove(sub)} className="px-4 py-2 bg-green-600 hover:bg-green-500 text-white font-black rounded-xl text-sm active:scale-95 transition-all">
-                    ✓ Δώσε
-                  </button>
-                  <button onClick={() => onRemove(sub)} className="px-4 py-2 bg-red-700 hover:bg-red-600 text-white font-black rounded-xl text-sm active:scale-95 transition-all">
-                    ✕ Αφαίρεσε
-                  </button>
+              <div key={sub.docId} className="bg-black/40 border border-white/10 rounded-2xl overflow-hidden">
+                {sub.imageUrl && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={sub.imageUrl} alt="nude submission" className="w-full max-h-80 object-cover" />
+                )}
+                <div className="p-4 flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-white font-bold text-lg">{sub.userName}</p>
+                    <p className={`text-sm font-black ${sub.gender === 'female' ? 'text-pink-400' : 'text-blue-400'}`}>
+                      {sub.gender === 'female' ? '👧 Κορίτσι → +30 πόντοι' : '👦 Αγόρι → -100 πόντοι'}
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button onClick={() => onApprove(sub)} className="px-4 py-2 bg-green-600 hover:bg-green-500 text-white font-black rounded-xl text-sm active:scale-95 transition-all">
+                      ✓ Δώσε
+                    </button>
+                    <button onClick={() => onRemove(sub)} className="px-4 py-2 bg-red-700 hover:bg-red-600 text-white font-black rounded-xl text-sm active:scale-95 transition-all">
+                      ✕ Αφαίρεσε
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
