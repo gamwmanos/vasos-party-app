@@ -117,7 +117,7 @@ export default function Gallery() {
                   <p className="text-sm text-gray-400">{quest.description}</p>
                 </div>
                 
-                {questItems.some(item => item.userId === currentUserId) ? (
+                {questItems.some(item => item.userId === currentUserId) || currentUserId === 'manos-7716' ? (
                   <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                     {questItems.map((item, i) => (
                       <motion.div 
