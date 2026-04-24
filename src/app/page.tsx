@@ -66,28 +66,51 @@ export default function Home() {
   return (
     <main className="bg-[var(--color-bg-dark)] text-white overflow-hidden relative">
       
-      {/* Decorative Global Background Blobs - Optimized for Mobile */}
+      {/* Decorative Global Background Blobs - Casino Red/Gold */}
       <motion.div 
         style={{ rotate: bgRotate }}
-        className="fixed inset-0 z-0 pointer-events-none opacity-40 md:opacity-30"
+        className="fixed inset-0 z-0 pointer-events-none opacity-30"
       >
-        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(168,85,247,0.4)_0%,transparent_60%)] rounded-full" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(6,182,212,0.4)_0%,transparent_60%)] rounded-full" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(236,72,153,0.3)_0%,transparent_60%)] rounded-full" />
+        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-[radial-gradient(circle,rgba(127,29,29,0.5)_0%,transparent_60%)] rounded-full" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(212,175,55,0.2)_0%,transparent_60%)] rounded-full" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(192,57,43,0.25)_0%,transparent_60%)] rounded-full" />
       </motion.div>
 
       {/* --- SECTION 1: HERO --- */}
       <section className="relative h-screen flex flex-col items-center justify-center pt-20 pb-10 z-10">
-        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-black/60 z-10" />
-          <Image 
-            src="/xarto.png" 
-            alt="Party Background" 
-            fill 
-            className="object-cover object-center"
-            priority
-            sizes="100vw"
-          />
+        <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0 z-0 flex items-center justify-center">
+          {/* Left decorative panel */}
+          <div className="absolute left-0 top-0 bottom-0 hero-side-panel relative overflow-hidden" style={{ width: 'calc((100vw - min(100vh * 0.65, 100vw)) / 2)' }}>
+            <div className="absolute inset-0" style={{
+              backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(212,175,55,0.12) 28px, rgba(212,175,55,0.12) 29px), repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(212,175,55,0.06) 28px, rgba(212,175,55,0.06) 29px)`
+            }} />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-8 opacity-40">
+              {['♠','♥','♦','♣','♠','♥','♦','♣'].map((s,i) => <span key={i} className="text-4xl" style={{color: i%2===0 ? '#d4af37' : '#c0392b'}}>{s}</span>)}
+            </div>
+            <div className="absolute right-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#d4af37] to-transparent opacity-60" />
+          </div>
+          {/* Center: the image fully visible */}
+          <div className="relative h-full" style={{ width: 'min(65vh, 100vw)', flexShrink: 0 }}>
+            <div className="absolute inset-0 bg-black/30 z-10" />
+            <Image 
+              src="/xarto.png" 
+              alt="Party Background" 
+              fill 
+              className="object-contain object-center"
+              priority
+              sizes="min(65vh, 100vw)"
+            />
+          </div>
+          {/* Right decorative panel */}
+          <div className="absolute right-0 top-0 bottom-0 hero-side-panel relative overflow-hidden" style={{ width: 'calc((100vw - min(100vh * 0.65, 100vw)) / 2)' }}>
+            <div className="absolute inset-0" style={{
+              backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(212,175,55,0.12) 28px, rgba(212,175,55,0.12) 29px), repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(212,175,55,0.06) 28px, rgba(212,175,55,0.06) 29px)`
+            }} />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-8 opacity-40">
+              {['♣','♦','♥','♠','♣','♦','♥','♠'].map((s,i) => <span key={i} className="text-4xl" style={{color: i%2===0 ? '#d4af37' : '#c0392b'}}>{s}</span>)}
+            </div>
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#d4af37] to-transparent opacity-60" />
+          </div>
         </motion.div>
 
         <div className="z-20 text-center flex flex-col items-center px-4 w-full max-w-5xl">
@@ -97,8 +120,8 @@ export default function Home() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="mb-6 flex justify-center"
           >
-            <div className="p-4 bg-white/5 backdrop-blur-xl border border-white/20 rounded-full glow-purple">
-              <Sparkles className="w-12 h-12 text-neon-pink" />
+            <div className="p-4 bg-white/5 backdrop-blur-xl border border-[#d4af37]/40 rounded-full glow-cyan">
+              <Sparkles className="w-12 h-12 text-[#d4af37]" />
             </div>
           </motion.div>
           
@@ -108,10 +131,10 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-6xl md:text-8xl font-black mb-6 tracking-tighter"
           >
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-pink via-neon-purple to-neon-cyan text-glow-pink block mb-2">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] via-[#f5d76e] to-[#d4af37] text-glow-cyan block mb-2">
               VASILIKI'S
             </span>
-            <span className="text-white text-glow-cyan text-5xl md:text-7xl">CASINO NIGHT</span>
+            <span className="text-[#c0392b] text-glow-pink text-5xl md:text-7xl">CASINO NIGHT</span>
           </motion.h1>
           
           <motion.p 
@@ -147,7 +170,7 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Πού & Πότε;</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-neon-cyan to-neon-purple mx-auto rounded-full glow-cyan"></div>
+            <div className="w-24 h-1 bg-gradient-to-r from-[#d4af37] to-[#c0392b] mx-auto rounded-full glow-cyan"></div>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -157,10 +180,10 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="bg-black/60 md:bg-white/5 backdrop-blur-sm md:backdrop-blur-lg border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all hover:-translate-y-2 glow-purple group"
+              className="bg-black/60 md:bg-[#1c0a0a]/80 backdrop-blur-sm md:backdrop-blur-lg border border-[#d4af37]/20 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-[#1c0a0a] transition-all hover:-translate-y-2 glow-purple group"
             >
-              <div className="w-20 h-20 rounded-full bg-neon-purple/20 flex items-center justify-center mb-6 group-hover:bg-neon-purple/40 transition-colors">
-                <MapPin className="w-10 h-10 text-neon-purple" />
+              <div className="w-20 h-20 rounded-full bg-[#7f1d1d]/40 flex items-center justify-center mb-6 group-hover:bg-[#7f1d1d]/60 transition-colors">
+                <MapPin className="w-10 h-10 text-[#d4af37]" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">Τοποθεσία</h3>
               <p className="text-gray-300 text-lg">
@@ -174,14 +197,14 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="bg-black/60 md:bg-white/5 backdrop-blur-sm md:backdrop-blur-lg border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all hover:-translate-y-2 glow-pink group"
+              className="bg-black/60 md:bg-[#1c0a0a]/80 backdrop-blur-sm md:backdrop-blur-lg border border-[#d4af37]/20 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-[#1c0a0a] transition-all hover:-translate-y-2 glow-pink group"
             >
-              <div className="w-20 h-20 rounded-full bg-neon-pink/20 flex items-center justify-center mb-6 group-hover:bg-neon-pink/40 transition-colors">
-                <Calendar className="w-10 h-10 text-neon-pink" />
+              <div className="w-20 h-20 rounded-full bg-[#c0392b]/20 flex items-center justify-center mb-6 group-hover:bg-[#c0392b]/40 transition-colors">
+                <Calendar className="w-10 h-10 text-[#c0392b]" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">Πότε</h3>
               <p className="text-gray-300 text-lg mb-2">Σάββατο Βράδυ</p>
-              <div className="flex items-center gap-2 text-neon-pink">
+              <div className="flex items-center gap-2 text-[#c0392b]">
                 <Clock className="w-5 h-5" />
                 <span className="font-bold">Μετά τις 22:00</span>
               </div>
@@ -193,10 +216,10 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="bg-black/60 md:bg-white/5 backdrop-blur-sm md:backdrop-blur-lg border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all hover:-translate-y-2 glow-cyan group"
+              className="bg-black/60 md:bg-[#1c0a0a]/80 backdrop-blur-sm md:backdrop-blur-lg border border-[#d4af37]/20 rounded-3xl p-8 flex flex-col items-center text-center hover:bg-[#1c0a0a] transition-all hover:-translate-y-2 glow-cyan group"
             >
-              <div className="w-20 h-20 rounded-full bg-neon-cyan/20 flex items-center justify-center mb-6 group-hover:bg-neon-cyan/40 transition-colors">
-                <Music className="w-10 h-10 text-neon-cyan" />
+              <div className="w-20 h-20 rounded-full bg-[#d4af37]/20 flex items-center justify-center mb-6 group-hover:bg-[#d4af37]/30 transition-colors">
+                <Music className="w-10 h-10 text-[#d4af37]" />
               </div>
               <h3 className="text-2xl font-bold text-white mb-2">Dress Code</h3>
               <p className="text-gray-300 text-lg">
@@ -221,54 +244,54 @@ export default function Home() {
             <motion.div 
               animate={{ y: [-5, 5, -5] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="absolute top-0 left-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-neon-cyan shadow-2xl z-10 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
+              className="absolute top-0 left-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-[#d4af37] shadow-2xl z-10 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
             >
               <Image src="/IMG_2251.png" alt="Vasiliki 1" fill sizes="(max-width: 768px) 55vw, 30vw" className="object-cover" />
-              <div className="absolute inset-0 bg-neon-cyan/20"></div>
+              <div className="absolute inset-0 bg-[#d4af37]/10"></div>
             </motion.div>
 
             {/* Image 2 (Back right) */}
             <motion.div 
               animate={{ y: [5, -5, 5] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-              className="absolute top-10 right-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-neon-purple shadow-2xl z-20 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
+              className="absolute top-10 right-0 w-[55%] aspect-[4/5] rounded-3xl overflow-hidden border-2 border-[#7f1d1d] shadow-2xl z-20 opacity-80 hover:opacity-100 transition-opacity hover:z-50"
             >
               <Image src="/BASED.jpg" alt="Vasiliki 2" fill sizes="(max-width: 768px) 55vw, 30vw" className="object-cover" />
-              <div className="absolute inset-0 bg-neon-purple/20"></div>
+              <div className="absolute inset-0 bg-[#7f1d1d]/20"></div>
             </motion.div>
 
             {/* Image 3 (Front center) */}
             <motion.div 
               animate={{ y: [-8, 8, -8] }}
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 2 }}
-              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[65%] aspect-[4/5] rounded-3xl overflow-hidden border-4 border-neon-pink glow-pink z-30 shadow-2xl hover:scale-105 transition-transform"
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[65%] aspect-[4/5] rounded-3xl overflow-hidden border-4 border-[#c0392b] glow-pink z-30 shadow-2xl hover:scale-105 transition-transform"
             >
               <Image src="/IMG_2226.png" alt="Vasiliki 3" fill sizes="(max-width: 768px) 65vw, 40vw" className="object-cover" priority />
-              <div className="absolute inset-0 bg-gradient-to-t from-neon-pink/40 to-transparent opacity-60"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#c0392b]/40 to-transparent opacity-60"></div>
             </motion.div>
             
             {/* Floating Elements */}
             <motion.div 
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-              className="absolute top-1/2 -right-4 bg-neon-pink p-3 rounded-full shadow-xl border border-white/20 z-40"
+              className="absolute top-1/2 -right-4 bg-[#c0392b] p-3 rounded-full shadow-xl border border-[#d4af37]/30 z-40"
             >
               <Heart className="w-6 h-6 text-white fill-white" />
             </motion.div>
           </motion.div>
 
           <div className="w-full md:w-1/2 space-y-6 text-center md:text-left">
-            <h2 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
+            <h2 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#d4af37] to-[#f5d76e]">
               Who is the VIP?
             </h2>
-            <h3 className="text-6xl font-black text-neon-pink text-glow-pink">VASILIKI</h3>
+            <h3 className="text-6xl font-black text-[#c0392b] text-glow-pink">VASILIKI</h3>
             <p className="text-xl text-gray-300 leading-relaxed">
               Απόψε γιορτάζουμε. Και ο καλύτερος τρόπος για να το κάνουμε είναι να γεμίσουμε το κινητό της με άπειρες στιγμές, challenges και φωτογραφίες. Το #1 Quest όλων είναι να βρουν τη Βασιλική και να βγάλουν μια επική selfie μαζί της!
             </p>
             
             <div className="flex flex-wrap gap-4 justify-center md:justify-start pt-4">
-              <span className="px-6 py-2 rounded-full bg-white/10 border border-neon-cyan text-neon-cyan font-bold tracking-wider">#CASINO_ROYALE</span>
-              <span className="px-6 py-2 rounded-full bg-white/10 border border-neon-purple text-neon-purple font-bold tracking-wider">#ALL_BLACK</span>
+              <span className="px-6 py-2 rounded-full bg-[#d4af37]/10 border border-[#d4af37] text-[#d4af37] font-bold tracking-wider">#CASINO_ROYALE</span>
+              <span className="px-6 py-2 rounded-full bg-[#c0392b]/10 border border-[#c0392b] text-[#c0392b] font-bold tracking-wider">#ALL_BLACK</span>
             </div>
           </div>
         </div>
@@ -297,9 +320,9 @@ export default function Home() {
               viewport={{ once: true, margin: "-100px" }}
               className="flex flex-col md:flex-row items-center gap-8 md:gap-16"
             >
-              <div className="w-32 h-32 flex-shrink-0 bg-neon-purple/20 rounded-full border-2 border-neon-purple flex items-center justify-center glow-purple relative">
-                <span className="absolute -top-4 -left-4 w-12 h-12 bg-neon-purple rounded-full flex items-center justify-center text-2xl font-bold">1</span>
-                <Sparkles className="w-16 h-16 text-neon-purple" />
+              <div className="w-32 h-32 flex-shrink-0 bg-[#7f1d1d]/30 rounded-full border-2 border-[#c0392b] flex items-center justify-center glow-purple relative">
+                <span className="absolute -top-4 -left-4 w-12 h-12 bg-[#c0392b] rounded-full flex items-center justify-center text-2xl font-bold">1</span>
+                <Sparkles className="w-16 h-16 text-[#d4af37]" />
               </div>
               <div>
                 <h3 className="text-3xl font-bold text-white mb-3">Δες τα Quests</h3>
@@ -314,9 +337,9 @@ export default function Home() {
               viewport={{ once: true, margin: "-100px" }}
               className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-16 text-right md:text-left"
             >
-              <div className="w-32 h-32 flex-shrink-0 bg-neon-pink/20 rounded-full border-2 border-neon-pink flex items-center justify-center glow-pink relative">
-                <span className="absolute -top-4 -right-4 md:-right-auto md:-left-4 w-12 h-12 bg-neon-pink rounded-full flex items-center justify-center text-2xl font-bold text-white">2</span>
-                <Camera className="w-16 h-16 text-neon-pink" />
+              <div className="w-32 h-32 flex-shrink-0 bg-[#c0392b]/20 rounded-full border-2 border-[#c0392b] flex items-center justify-center glow-pink relative">
+                <span className="absolute -top-4 -right-4 md:-right-auto md:-left-4 w-12 h-12 bg-[#c0392b] rounded-full flex items-center justify-center text-2xl font-bold text-white">2</span>
+                <Camera className="w-16 h-16 text-[#c0392b]" />
               </div>
               <div className="md:text-right">
                 <h3 className="text-3xl font-bold text-white mb-3">Βγάλε Φωτογραφία</h3>
@@ -331,9 +354,9 @@ export default function Home() {
               viewport={{ once: true, margin: "-100px" }}
               className="flex flex-col md:flex-row items-center gap-8 md:gap-16"
             >
-              <div className="w-32 h-32 flex-shrink-0 bg-neon-cyan/20 rounded-full border-2 border-neon-cyan flex items-center justify-center glow-cyan relative">
-                <span className="absolute -top-4 -left-4 w-12 h-12 bg-neon-cyan rounded-full flex items-center justify-center text-2xl font-bold text-black">3</span>
-                <Trophy className="w-16 h-16 text-neon-cyan" />
+              <div className="w-32 h-32 flex-shrink-0 bg-[#d4af37]/20 rounded-full border-2 border-[#d4af37] flex items-center justify-center glow-cyan relative">
+                <span className="absolute -top-4 -left-4 w-12 h-12 bg-[#d4af37] rounded-full flex items-center justify-center text-2xl font-bold text-black">3</span>
+                <Trophy className="w-16 h-16 text-[#d4af37]" />
               </div>
               <div>
                 <h3 className="text-3xl font-bold text-white mb-3">Ανέβα στο Leaderboard</h3>
@@ -352,10 +375,10 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="w-full max-w-lg bg-black/60 backdrop-blur-2xl p-10 rounded-[2.5rem] border border-neon-purple/50 glow-purple relative z-10"
+          className="w-full max-w-lg bg-[#0f0505]/80 backdrop-blur-2xl p-10 rounded-[2.5rem] border border-[#d4af37]/40 glow-cyan relative z-10"
         >
           <div className="text-center mb-8">
-            <Star className="w-12 h-12 text-neon-cyan mx-auto mb-4 animate-pulse" />
+            <Star className="w-12 h-12 text-[#d4af37] mx-auto mb-4 animate-pulse" />
             <h2 className="text-4xl font-black text-white mb-2">Ready?</h2>
             <p className="text-gray-400">Βάλε το όνομά σου για να μπεις στο παιχνίδι.</p>
           </div>
@@ -365,7 +388,7 @@ export default function Home() {
               <p className="text-xl text-gray-300">Έχεις ήδη μπει ως <strong className="text-neon-cyan">{existingName}</strong></p>
               <button
                 onClick={() => router.push("/dashboard")}
-                className="w-full py-5 rounded-2xl bg-gradient-to-r from-neon-pink via-neon-purple to-neon-cyan text-white font-black text-2xl hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all glow-pink"
+                className="w-full py-5 rounded-2xl bg-gradient-to-r from-[#c0392b] via-[#7f1d1d] to-[#d4af37] text-white font-black text-2xl hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all glow-pink"
               >
                 ΕΠΙΣΤΡΟΦΗ ΣΤΟ ΠΑΙΧΝΙΔΙ
               </button>
@@ -408,7 +431,7 @@ export default function Home() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder={formMode === "register" ? "Το Όνομά σου (π.χ. Γιώργος)" : "Το Όνομα που είχες βάλει"}
-                    className="w-full px-6 py-5 rounded-2xl bg-white/5 border-2 border-white/10 text-white text-xl placeholder:text-gray-500 focus:outline-none focus:border-neon-cyan focus:bg-white/10 transition-all text-center font-bold"
+                    className="w-full px-6 py-5 rounded-2xl bg-white/5 border-2 border-white/10 text-white text-xl placeholder:text-gray-500 focus:outline-none focus:border-[#d4af37] focus:bg-white/10 transition-all text-center font-bold"
                     required
                   />
                   
@@ -420,7 +443,7 @@ export default function Home() {
                     value={pin}
                     onChange={(e) => setPin(e.target.value)}
                     placeholder="4-ψήφιο PIN"
-                    className="w-full px-6 py-5 rounded-2xl bg-white/5 border-2 border-white/10 text-white text-xl placeholder:text-gray-500 focus:outline-none focus:border-neon-pink focus:bg-white/10 transition-all text-center font-bold tracking-[0.5em]"
+                    className="w-full px-6 py-5 rounded-2xl bg-white/5 border-2 border-white/10 text-white text-xl placeholder:text-gray-500 focus:outline-none focus:border-[#c0392b] focus:bg-white/10 transition-all text-center font-bold tracking-[0.5em]"
                     title="Βάλε 4 αριθμούς"
                     required
                   />
@@ -433,7 +456,7 @@ export default function Home() {
 
                 <button
                   type="submit"
-                  className="w-full py-5 rounded-2xl bg-gradient-to-r from-neon-pink via-neon-purple to-neon-cyan text-white font-black text-2xl hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all glow-pink mt-4 uppercase"
+                  className="w-full py-5 rounded-2xl bg-gradient-to-r from-[#c0392b] via-[#7f1d1d] to-[#d4af37] text-white font-black text-2xl hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all glow-pink mt-4 uppercase"
                 >
                   {formMode === "register" ? "JOIN THE PARTY" : "ΕΠΙΣΤΡΟΦΗ"}
                 </button>

@@ -25,8 +25,8 @@ export default function QuestCard({ quest, status, onComplete, isUploading }: Qu
     <div
       className={clsx(
         "relative overflow-hidden rounded-2xl p-5 transition-all duration-300",
-        status === "completed" && "bg-neon-cyan/10 border border-neon-cyan glow-cyan",
-        status === "active" && "bg-white/10 border border-neon-pink glow-pink",
+        status === "completed" && "bg-[#d4af37]/10 border border-[#d4af37] glow-cyan",
+        status === "active" && "bg-white/10 border border-[#c0392b] glow-pink",
         status === "locked" && "bg-white/5 border border-white/10 opacity-60 grayscale"
       )}
     >
@@ -37,7 +37,7 @@ export default function QuestCard({ quest, status, onComplete, isUploading }: Qu
         </div>
         
         {status === "completed" && (
-          <CheckCircle2 className="w-8 h-8 text-neon-cyan flex-shrink-0" />
+          <CheckCircle2 className="w-8 h-8 text-[#d4af37] flex-shrink-0" />
         )}
         {status === "locked" && (
           <Lock className="w-6 h-6 text-gray-500 flex-shrink-0 mt-1" />
@@ -46,7 +46,7 @@ export default function QuestCard({ quest, status, onComplete, isUploading }: Qu
 
       {status === "active" && (
         <div className="mt-5">
-          <label className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-neon-pink text-white rounded-xl font-semibold cursor-pointer hover:bg-fuchsia-600 transition-colors active:scale-95">
+          <label className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-[#c0392b] text-white rounded-xl font-semibold cursor-pointer hover:bg-[#991b1b] transition-colors active:scale-95">
             <Camera className="w-5 h-5" />
             {isUploading ? "Ανέβασμα..." : "Ανέβασμα Φωτογραφίας"}
             <input
@@ -62,7 +62,7 @@ export default function QuestCard({ quest, status, onComplete, isUploading }: Qu
 
       {status === "completed" && (
         <div className="mt-5">
-          <label className="flex items-center justify-center gap-2 w-full py-2 px-4 bg-transparent border border-neon-cyan text-neon-cyan rounded-xl font-semibold cursor-pointer hover:bg-neon-cyan/20 transition-colors active:scale-95 text-sm">
+          <label className="flex items-center justify-center gap-2 w-full py-2 px-4 bg-transparent border border-[#d4af37] text-[#d4af37] rounded-xl font-semibold cursor-pointer hover:bg-[#d4af37]/20 transition-colors active:scale-95 text-sm">
             <RefreshCcw className="w-4 h-4" />
             {isUploading ? "Ανέβασμα..." : "Αντικατάσταση Φωτογραφίας"}
             <input
