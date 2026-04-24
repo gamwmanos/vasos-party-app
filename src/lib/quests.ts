@@ -92,5 +92,11 @@ export const QUESTS: Quest[] = [
     title: 'Caught in the Act 💋',
     description: 'Πιάσε φωτό ένα φιλί ΣΤΟΜΑ ΜΕ ΣΤΟΜΑ! Δεν μετράει αν τα άτομα είναι ζευγάρι — πρέπει να είναι spontaneous!',
     points: 2
+  },
+  {
+    id: 'q16',
+    title: 'Βρες τον Τζι Χιώτη! 😘',
+    description: 'Βρες τον Τζι Χιώτη και δώσ\' του ένα φιλί στο μάγουλο! Φωτογράφισε τη στιγμή!',
+    points: 2
   }
 ];
