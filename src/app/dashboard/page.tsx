@@ -224,6 +224,23 @@ export default function Dashboard() {
         />
       )}
 
+      {/* AFTER PARTY BANNER */}
+      <div className="mb-6 bg-gradient-to-r from-[#7f1d1d]/60 via-[#1c0a0a]/80 to-[#7f1d1d]/60 border border-[#c0392b]/50 rounded-2xl p-5">
+        <div className="flex items-center gap-3 mb-3">
+          <span className="text-3xl">🎉</span>
+          <div>
+            <p className="text-white font-black text-lg leading-tight">Το πάρτι τελείωσε!</p>
+            <p className="text-gray-300 text-sm">Ευχαριστούμε για τη συμμετοχή σου στα quests της βραδιάς!</p>
+          </div>
+        </div>
+        <button
+          onClick={() => router.push("/gallery")}
+          className="w-full py-3 rounded-xl bg-[#c0392b] hover:bg-[#991b1b] text-white font-black transition-all active:scale-95 flex items-center justify-center gap-2"
+        >
+          📸 Δες τη Γκαλερί του After Party
+        </button>
+      </div>
+
       <div className="space-y-4">
         {QUESTS.map((quest) => {
           if (quest.isHidden && !hasUnlockedHidden && !completedQuests.includes(quest.id) && userId !== 'manos-7716') return null;

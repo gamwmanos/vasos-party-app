@@ -12,6 +12,9 @@ interface QuestCardProps {
   isPending?: boolean;
 }
 
+// 🎉 PARTY IS OVER - set to true to lock all uploads
+const PARTY_OVER = true;
+
 export default function QuestCard({ quest, status, onComplete, isUploading, usersList, isPending }: QuestCardProps) {
   const [file, setFile] = useState<File | null>(null);
   const [selectedUserId, setSelectedUserId] = useState<string>("");
@@ -131,7 +134,7 @@ export default function QuestCard({ quest, status, onComplete, isUploading, user
         </div>
       )}
 
-      {status === "active" && !isPending && (
+      {status === "active" && !isPending && !PARTY_OVER && (
         <div className="mt-5">
           <label className={clsx(
             "flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl font-semibold cursor-pointer transition-colors active:scale-95",
@@ -152,7 +155,13 @@ export default function QuestCard({ quest, status, onComplete, isUploading, user
         </div>
       )}
 
-      {status === "completed" && !isPending && (
+      {PARTY_OVER && status === "active" && !isPending && (
+        <div className="mt-4 bg-white/5 border border-white/10 rounded-xl p-3 text-center">
+          <p className="text-gray-500 text-xs">🎉 Το πάρτι τελείωσε — δεν γίνεται πλέον ανέβασμα</p>
+        </div>
+      )}
+
+      {status === "completed" && !isPending && !PARTY_OVER && (
         <div className="mt-5">
           <label className="flex items-center justify-center gap-2 w-full py-2 px-4 bg-transparent border border-[#c0392b] text-[#c0392b] rounded-xl font-semibold cursor-pointer hover:bg-[#c0392b]/20 transition-colors active:scale-95 text-sm">
             <RefreshCcw className="w-4 h-4" />
